@@ -20,7 +20,10 @@ const Hero = () => {
         minHeight: '90vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+        background: (theme) =>
+          theme.palette.mode === 'light'
+            ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+            : 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}

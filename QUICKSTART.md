@@ -35,8 +35,10 @@
 ### Development
 
 - **Hot reload**: Changes are automatically reflected
+- **Dark mode**: Click the sun/moon icon in the navbar to toggle themes
 - **Language toggle**: Use the globe icon in the navbar
 - **Smooth scrolling**: Click navigation items to scroll to sections
+- **Auto theme detection**: App respects your system's color scheme preference
 
 ### Building for Production
 

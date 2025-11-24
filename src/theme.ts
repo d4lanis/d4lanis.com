@@ -1,25 +1,25 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, type PaletteMode } from '@mui/material/styles';
 
-export const theme = createTheme({
+export const getTheme = (mode: PaletteMode) => createTheme({
   palette: {
-    mode: 'light',
+    mode,
     primary: {
-      main: '#2C3E50',
-      light: '#34495E',
-      dark: '#1A252F',
+      main: mode === 'light' ? '#2C3E50' : '#5DADE2',
+      light: mode === 'light' ? '#34495E' : '#7FC8F8',
+      dark: mode === 'light' ? '#1A252F' : '#3498DB',
     },
     secondary: {
-      main: '#3498DB',
-      light: '#5DADE2',
-      dark: '#2874A6',
+      main: mode === 'light' ? '#3498DB' : '#5DADE2',
+      light: mode === 'light' ? '#5DADE2' : '#7FC8F8',
+      dark: mode === 'light' ? '#2874A6' : '#3498DB',
     },
     background: {
-      default: '#FFFFFF',
-      paper: '#F8F9FA',
+      default: mode === 'light' ? '#FFFFFF' : '#0a0a0a',
+      paper: mode === 'light' ? '#F8F9FA' : '#1a1a1a',
     },
     text: {
-      primary: '#2C3E50',
-      secondary: '#5D6D7E',
+      primary: mode === 'light' ? '#2C3E50' : '#e8e8e8',
+      secondary: mode === 'light' ? '#5D6D7E' : '#b0b0b0',
     },
   },
   typography: {

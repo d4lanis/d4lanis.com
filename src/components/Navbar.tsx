@@ -1,9 +1,13 @@
 import { AppBar, Toolbar, Button, Box, Container, IconButton } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useThemeMode } from '../contexts/ThemeContext';
 
 const Navbar = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { mode, toggleTheme } = useThemeMode();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -18,9 +22,15 @@ const Navbar = () => {
       color="default" 
       elevation={0}
       sx={{ 
-        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'light'
+            ? 'rgba(255, 255, 255, 0.98)'
+            : 'rgba(26, 26, 26, 0.98)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+        borderBottom: (theme) =>
+          theme.palette.mode === 'light'
+            ? '1px solid rgba(0, 0, 0, 0.08)'
+            : '1px solid rgba(255, 255, 255, 0.08)',
       }}
     >
       <Container maxWidth="lg">
@@ -66,9 +76,18 @@ const Navbar = () => {
               {t('nav.contact')}
             </Button>
             <IconButton 
+              onClick={toggleTheme}
+              color="primary"
+              sx={{ ml: 1 }}
+              aria-label="toggle theme"
+            >
+              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+            <IconButton 
               onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
               color="primary"
               sx={{ ml: 1 }}
+              aria-label="toggle language"
             >
               <LanguageIcon />
             </IconButton>

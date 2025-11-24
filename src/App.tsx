@@ -1,7 +1,6 @@
-import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/material';
-import { theme } from './theme';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -13,7 +12,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <CssBaseline />
       <LanguageProvider>
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

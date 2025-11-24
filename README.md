@@ -4,6 +4,7 @@ A modern, bilingual (English/Spanish) portfolio website built with React, TypeSc
 
 ## 🚀 Features
 
+- **Dark Mode**: Automatic theme detection based on system preference with manual toggle
 - **Bilingual Support**: Toggle between English and Spanish
 - **Modern Design**: Clean, minimalist UI with Material UI
 - **Responsive**: Mobile-first design that works on all devices
@@ -61,7 +62,7 @@ await emailjs.send(
 ```
 src/
 ├── components/
-│   ├── Navbar.tsx        # Navigation with language switcher
+│   ├── Navbar.tsx        # Navigation with theme & language toggles
 │   ├── Hero.tsx          # Hero section with CTA
 │   ├── About.tsx         # About me and what I do
 │   ├── Projects.tsx      # Project cards
@@ -69,11 +70,12 @@ src/
 │   ├── Contact.tsx       # Contact form
 │   └── Footer.tsx        # Footer with links
 ├── contexts/
+│   ├── ThemeContext.tsx     # Dark mode with system detection
 │   └── LanguageContext.tsx  # Bilingual support
 ├── data/
 │   ├── projects.ts       # Project data
 │   └── skills.ts         # Skills data
-├── theme.ts              # MUI theme configuration
+├── theme.ts              # MUI theme configuration (light/dark)
 ├── App.tsx               # Main app component
 └── main.tsx              # Entry point
 ```
@@ -132,9 +134,13 @@ Edit `src/data/skills.ts`:
 }
 ```
 
-### Changing Theme
+### Changing Theme Colors
 
-Edit `src/theme.ts` to customize colors, typography, and component styles.
+Edit `src/theme.ts` to customize colors, typography, and component styles for both light and dark modes.
+
+### Dark Mode
+
+The app automatically detects your system's color scheme preference and applies the corresponding theme. Users can also manually toggle between light and dark modes using the sun/moon icon in the navbar. The preference is saved in localStorage.
 
 ## 📄 License
 
