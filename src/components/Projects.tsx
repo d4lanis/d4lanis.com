@@ -22,15 +22,6 @@ const Projects = () => {
     },
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: 'easeOut' },
-    },
-  };
-
   return (
     <Box id="projects" sx={{ py: 8, backgroundColor: 'background.paper' }}>
       <Container maxWidth="lg" ref={ref}>
@@ -59,15 +50,22 @@ const Projects = () => {
         >
           {projects.map((project, index) => (
             <Grid key={index} size={{ xs: 12, md: 6 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                whileHover={{ y: -8 }}
+                style={{ height: '100%' }}
+              >
               <Card
-                component={motion.div}
-                variants={cardVariants}
-                whileHover={{ y: -8, boxShadow: '0 12px 32px rgba(0,0,0,0.15)' }}
                 sx={{
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   overflow: 'hidden',
+                  '&:hover': {
+                    boxShadow: '0 12px 32px rgba(0,0,0,0.15)',
+                  },
                 }}
               >
                 {/* Project Image Placeholder */}
@@ -171,6 +169,7 @@ const Projects = () => {
                   )}
                 </CardContent>
               </Card>
+              </motion.div>
             </Grid>
           ))}
         </Grid>

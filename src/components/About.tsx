@@ -23,15 +23,6 @@ const About = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: 'easeOut' },
-    },
-  };
-
   const services = [
     {
       icon: <BuildIcon sx={{ fontSize: 40 }} />,
@@ -153,10 +144,13 @@ const About = () => {
         >
           {services.map((service, index) => (
             <Grid key={index} size={{ xs: 12, md: 4 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+              >
               <Paper
-                component={motion.div}
-                variants={itemVariants}
-                whileHover={{ y: -8, boxShadow: '0 12px 32px rgba(0,0,0,0.15)' }}
                 elevation={0}
                 sx={{
                   p: 4,
@@ -164,7 +158,6 @@ const About = () => {
                   textAlign: 'center',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    transform: 'translateY(-8px)',
                     boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
                   },
                 }}
@@ -182,6 +175,7 @@ const About = () => {
                   {service.description}
                 </Typography>
               </Paper>
+              </motion.div>
             </Grid>
           ))}
         </Grid>

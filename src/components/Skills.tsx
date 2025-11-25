@@ -20,15 +20,6 @@ const Skills = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, ease: 'easeOut' },
-    },
-  };
-
   return (
     <Box id="skills" sx={{ py: 8, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg" ref={ref}>
@@ -57,15 +48,21 @@ const Skills = () => {
         >
           {skillCategories.map((category, index) => (
             <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                whileHover={{ y: -4 }}
+              >
               <Paper
-                component={motion.div}
-                variants={itemVariants}
-                whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}
                 elevation={0}
                 sx={{
                   p: 3,
                   height: '100%',
                   backgroundColor: 'background.paper',
+                  '&:hover': {
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                  },
                 }}
               >
                 <Typography
@@ -96,6 +93,7 @@ const Skills = () => {
                   ))}
                 </Box>
               </Paper>
+              </motion.div>
             </Grid>
           ))}
         </Grid>
