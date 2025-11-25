@@ -8,6 +8,7 @@ export interface Project {
     en: string[];
     es: string[];
   };
+  link?: string;
 }
 
 export const projects: Project[] = [
@@ -17,6 +18,7 @@ export const projects: Project[] = [
     descriptionEn: 'Enhanced reliability of a critical healthcare platform',
     descriptionEs: 'Mejora de la fiabilidad de una plataforma de salud crítica',
     tech: ['PHP', 'openEMR', 'jQuery', 'MySQL'],
+    link: 'https://mychn.org/',
     highlights: {
       en: [
         'Fixed critical bugs at code and database level',
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     descriptionEn: 'Built a modern social networking platform with AI integration',
     descriptionEs: 'Desarrollo de una plataforma social moderna con integración de IA',
     tech: ['Next.js', 'FastAPI', 'Dify AI', 'PostgreSQL'],
+    link: 'https://www.forfounder.com/',
     highlights: {
       en: [
         'Built responsive application flow',
@@ -55,6 +58,7 @@ export const projects: Project[] = [
     descriptionEn: 'Modernized event ticketing platform with custom UI builder',
     descriptionEs: 'Modernización de plataforma de venta de boletos con constructor de UI personalizado',
     tech: ['Vite.js', 'Node.js', 'GCP', 'Sentry'],
+    link: 'https://www.tickettogo.com.mx/',
     highlights: {
       en: [
         'Rebuilt the admin module using global components',
@@ -74,6 +78,7 @@ export const projects: Project[] = [
     descriptionEn: 'Improved legacy e-commerce platform for medical supplies',
     descriptionEs: 'Mejora de plataforma legacy de e-commerce para suministros médicos',
     tech: ['PHP', 'MySQL', 'AWS', 'jQuery'],
+    link: 'https://honestmed.com/',
     highlights: {
       en: [
         'Improved UX and updated legacy components',
@@ -93,6 +98,7 @@ export const projects: Project[] = [
     descriptionEn: 'Built cost management platform for enterprise clients',
     descriptionEs: 'Desarrollo de plataforma de gestión de costos para clientes empresariales',
     tech: ['Next.js', 'Nest.js', 'AWS', 'AG-Grid'],
+    link: 'https://cogsz.com/',
     highlights: {
       en: [
         'Built authentication, form validation, and AG-Grid integrations',
@@ -112,6 +118,7 @@ export const projects: Project[] = [
     descriptionEn: 'Secure payment platform for government services',
     descriptionEs: 'Plataforma de pagos segura para servicios gubernamentales',
     tech: ['Laravel', 'MySQL', 'Datadog', 'AWS'],
+    link: 'https://niupay.com.pg/',
     highlights: {
       en: [
         'Integrated monitoring + logging',
@@ -131,6 +138,7 @@ export const projects: Project[] = [
     descriptionEn: 'Digital menu management platform for restaurants',
     descriptionEs: 'Plataforma de gestión de menús digitales para restaurantes',
     tech: ['React', 'Node.js', 'AWS Cognito', 'Lambda'],
+    link: 'https://stellarmenus.com/',
     highlights: {
       en: [
         'Built role-based auth with secure SSO',

@@ -1,4 +1,5 @@
 import { Box, Container, Typography, Button } from '@mui/material';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -12,6 +13,25 @@ const Hero = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
   };
 
   return (
@@ -29,78 +49,78 @@ const Hero = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Box
-          sx={{
-            textAlign: 'center',
-            animation: 'fadeInUp 1s ease-out',
-            '@keyframes fadeInUp': {
-              from: {
-                opacity: 0,
-                transform: 'translateY(30px)',
-              },
-              to: {
-                opacity: 1,
-                transform: 'translateY(0)',
-              },
-            },
-          }}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          style={{ textAlign: 'center' }}
         >
-          <Typography
-            variant="h1"
-            sx={{
-              mb: 2,
-              fontWeight: 700,
-              color: 'primary.main',
-            }}
-          >
-            Daniel Alanis
-          </Typography>
+          <motion.div variants={itemVariants}>
+            <Typography
+              variant="h1"
+              sx={{
+                mb: 2,
+                fontWeight: 700,
+                color: 'primary.main',
+              }}
+            >
+              Daniel Alanis
+            </Typography>
+          </motion.div>
           
-          <Typography
-            variant="h3"
-            sx={{
-              mb: 3,
-              color: 'text.secondary',
-              fontWeight: 500,
-            }}
-          >
-            {t('hero.title')}
-          </Typography>
+          <motion.div variants={itemVariants}>
+            <Typography
+              variant="h3"
+              sx={{
+                mb: 3,
+                color: 'text.secondary',
+                fontWeight: 500,
+              }}
+            >
+              {t('hero.title')}
+            </Typography>
+          </motion.div>
 
-          <Typography
-            variant="h4"
-            sx={{
-              mb: 2,
-              color: 'primary.dark',
-              fontWeight: 600,
-            }}
-          >
-            {t('hero.subtitle')}
-          </Typography>
+          <motion.div variants={itemVariants}>
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 2,
+                color: 'primary.dark',
+                fontWeight: 600,
+              }}
+            >
+              {t('hero.subtitle')}
+            </Typography>
+          </motion.div>
 
-          <Typography
-            variant="body1"
-            sx={{
-              mb: 4,
-              maxWidth: '800px',
-              mx: 'auto',
-              color: 'text.secondary',
-              fontSize: '1.1rem',
-            }}
-          >
-            {t('hero.description')}
-          </Typography>
+          <motion.div variants={itemVariants}>
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 4,
+                maxWidth: '800px',
+                mx: 'auto',
+                color: 'text.secondary',
+                fontSize: '1.1rem',
+              }}
+            >
+              {t('hero.description')}
+            </Typography>
+          </motion.div>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: 2,
-              mb: 4,
-              color: 'text.secondary',
-            }}
-          >
+          <motion.div variants={itemVariants}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2,
+                mb: 4,
+                color: 'text.secondary',
+              }}
+            >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               <EmailIcon fontSize="small" />
               <Typography variant="body2">daniel.alanis.hdz@gmail.com</Typography>
@@ -113,21 +133,26 @@ const Hero = () => {
               <LocationOnIcon fontSize="small" />
               <Typography variant="body2">Saltillo, Coahuila, México</Typography>
             </Box>
-          </Box>
+            </Box>
+          </motion.div>
 
-          <Button
-            variant="contained"
-            size="large"
-            onClick={scrollToContact}
-            sx={{
-              px: 4,
-              py: 1.5,
-              fontSize: '1.1rem',
-            }}
-          >
-            {t('hero.cta')}
-          </Button>
-        </Box>
+          <motion.div variants={itemVariants}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={scrollToContact}
+                sx={{
+                  px: 4,
+                  py: 1.5,
+                  fontSize: '1.1rem',
+                }}
+              >
+                {t('hero.cta')}
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </Container>
     </Box>
   );
