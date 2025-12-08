@@ -4,27 +4,33 @@ export const getTheme = (mode: PaletteMode) => createTheme({
   palette: {
     mode,
     primary: {
-      main: mode === 'light' ? '#2C3E50' : '#5DADE2',
-      light: mode === 'light' ? '#34495E' : '#7FC8F8',
-      dark: mode === 'light' ? '#1A252F' : '#3498DB',
+      // Deeper blues for both modes, adjusted for contrast in dark mode
+      main: mode === 'light' ? '#2D5485' : '#5579A8',
+      light: mode === 'light' ? '#5579A8' : '#8CB3D9',
+      dark: mode === 'light' ? '#1E3A5F' : '#2D5485',
     },
     secondary: {
-      main: mode === 'light' ? '#3498DB' : '#5DADE2',
-      light: mode === 'light' ? '#5DADE2' : '#7FC8F8',
-      dark: mode === 'light' ? '#2874A6' : '#3498DB',
+      // Charcoal accents or complementary
+      main: mode === 'light' ? '#333333' : '#E0E0E0',
+      light: mode === 'light' ? '#555555' : '#FFFFFF',
+      dark: mode === 'light' ? '#1A1A1A' : '#CCCCCC',
     },
     background: {
-      default: mode === 'light' ? '#FFFFFF' : '#0a0a0a',
-      paper: mode === 'light' ? '#F8F9FA' : '#1a1a1a',
+      // Off-white / Dark gray
+      default: mode === 'light' ? '#f0f2f5' : '#121212',
+      paper: mode === 'light' ? '#FFFFFF' : '#1E1E1E',
     },
     text: {
-      primary: mode === 'light' ? '#2C3E50' : '#e8e8e8',
-      secondary: mode === 'light' ? '#5D6D7E' : '#b0b0b0',
+      // Charcoal gray vs off-white text
+      primary: mode === 'light' ? '#333333' : '#F0F0F0',
+      secondary: mode === 'light' ? '#5A6B7C' : '#A0A0A0',
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    // Space Grotesk for titles, Source Sans 3 for body (falling back to Inter/Sans)
+    fontFamily: '"Source Sans 3", "Inter", "Roboto", sans-serif',
     h1: {
+      fontFamily: '"Space Grotesk", "Inter", sans-serif',
       fontSize: '3.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
@@ -33,6 +39,7 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h2: {
+      fontFamily: '"Space Grotesk", "Inter", sans-serif',
       fontSize: '2.5rem',
       fontWeight: 600,
       lineHeight: 1.3,
@@ -41,6 +48,7 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h3: {
+      fontFamily: '"Space Grotesk", "Inter", sans-serif',
       fontSize: '1.75rem',
       fontWeight: 600,
       lineHeight: 1.4,
@@ -49,11 +57,13 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h4: {
+      fontFamily: '"Space Grotesk", "Inter", sans-serif',
       fontSize: '1.5rem',
       fontWeight: 600,
       lineHeight: 1.4,
     },
     h5: {
+      fontFamily: '"Space Grotesk", "Inter", sans-serif',
       fontSize: '1.25rem',
       fontWeight: 600,
       lineHeight: 1.5,
@@ -76,6 +86,7 @@ export const getTheme = (mode: PaletteMode) => createTheme({
           fontWeight: 600,
           padding: '10px 24px',
           fontSize: '1rem',
+          fontFamily: '"Space Grotesk", "Inter", sans-serif',
         },
         contained: {
           boxShadow: 'none',

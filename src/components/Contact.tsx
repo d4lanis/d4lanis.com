@@ -7,10 +7,16 @@ import {
   Button,
   Alert,
   Paper,
+  IconButton,
+  Stack,
+  Tooltip,
 } from '@mui/material';
 import { useLanguage } from '../contexts/LanguageContext';
 import { saveContactForm } from '../lib/appwrite';
 import SendIcon from '@mui/icons-material/Send';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import EmailIcon from '@mui/icons-material/Email';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -54,7 +60,7 @@ const Contact = () => {
   };
 
   return (
-    <Box id="contact" sx={{ py: 8, backgroundColor: 'background.paper' }}>
+    <Box id="contact" sx={{ py: 12, backgroundColor: 'background.default' }}>
       <Container maxWidth="md">
         <Typography
           variant="h2"
@@ -62,6 +68,7 @@ const Contact = () => {
             mb: 2,
             textAlign: 'center',
             color: 'primary.main',
+            fontWeight: 700,
           }}
         >
           {t('contact.title')}
@@ -73,13 +80,78 @@ const Contact = () => {
             mb: 4,
             textAlign: 'center',
             color: 'text.secondary',
-            fontSize: '1.1rem',
+            fontSize: '1.2rem',
           }}
         >
           {t('contact.subtitle')}
         </Typography>
 
-        <Paper elevation={0} sx={{ p: 4, backgroundColor: 'background.default' }}>
+        <Stack 
+          direction="row" 
+          spacing={2} 
+          justifyContent="center" 
+          sx={{ mb: 6 }}
+        >
+          <Tooltip title="LinkedIn">
+            <IconButton 
+              component="a" 
+              href="https://www.linkedin.com/in/daniel-alanis-hdz/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+              size="large"
+              sx={{ 
+                border: '1px solid',
+                borderColor: 'divider',
+                '&:hover': { backgroundColor: 'action.hover', borderColor: 'primary.main' }
+              }}
+            >
+              <LinkedInIcon fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="GitHub">
+            <IconButton 
+              component="a" 
+              href="https://github.com/D4lanis" 
+              target="_blank"
+              rel="noopener noreferrer"
+              color="primary"
+              size="large"
+              sx={{ 
+                border: '1px solid',
+                borderColor: 'divider',
+                '&:hover': { backgroundColor: 'action.hover', borderColor: 'primary.main' }
+              }}
+            >
+              <GitHubIcon fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Email Me">
+            <IconButton 
+              component="a" 
+              href="mailto:daniel.alanis.hdz@gmail.com" 
+              color="primary"
+              size="large"
+              sx={{ 
+                border: '1px solid',
+                borderColor: 'divider',
+                '&:hover': { backgroundColor: 'action.hover', borderColor: 'primary.main' }
+              }}
+            >
+              <EmailIcon fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: { xs: 3, md: 5 }, 
+            backgroundColor: 'background.paper',
+            borderRadius: 4,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.05)'
+          }}
+        >
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -89,6 +161,9 @@ const Contact = () => {
               onChange={handleChange}
               required
               sx={{ mb: 3 }}
+              InputProps={{
+                sx: { borderRadius: 2 }
+              }}
             />
 
             <TextField
@@ -100,6 +175,9 @@ const Contact = () => {
               onChange={handleChange}
               required
               sx={{ mb: 3 }}
+              InputProps={{
+                sx: { borderRadius: 2 }
+              }}
             />
 
             <TextField
@@ -112,6 +190,9 @@ const Contact = () => {
               placeholder="+1 (555) 000-0000"
               helperText={t('contact.phoneOptional')}
               sx={{ mb: 3 }}
+              InputProps={{
+                sx: { borderRadius: 2 }
+              }}
             />
 
             <TextField
@@ -124,16 +205,19 @@ const Contact = () => {
               onChange={handleChange}
               required
               sx={{ mb: 3 }}
+              InputProps={{
+                sx: { borderRadius: 2 }
+              }}
             />
 
             {status === 'success' && (
-              <Alert severity="success" sx={{ mb: 3 }}>
+              <Alert severity="success" sx={{ mb: 3, borderRadius: 2 }}>
                 {t('contact.success')}
               </Alert>
             )}
 
             {status === 'error' && (
-              <Alert severity="error" sx={{ mb: 3 }}>
+              <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
                 {t('contact.error')}
               </Alert>
             )}
@@ -145,7 +229,7 @@ const Contact = () => {
               fullWidth
               disabled={status === 'sending'}
               endIcon={<SendIcon />}
-              sx={{ py: 1.5 }}
+              sx={{ py: 1.5, borderRadius: 2, fontSize: '1.1rem' }}
             >
               {status === 'sending' ? t('contact.sending') : t('contact.send')}
             </Button>

@@ -20,27 +20,27 @@ const translations = {
     
     // Hero
     'hero.title': 'Full-Stack Software Engineer',
-    'hero.subtitle': 'Turning complex problems into clean, scalable code.',
-    'hero.description': 'Friendly approach. Minimalist execution. Real results across healthcare, fintech, e-commerce, AI, and SaaS.',
-    'hero.cta': 'Get in Touch',
+    'hero.subtitle': 'Building reliable, scalable web solutions for startups and enterprises.',
+    'hero.description': 'From idea to deployment. I turn complex systems into simple, human experiences with clean, maintainable architecture.',
+    'hero.cta': "Let's Work Together",
     
     // About
     'about.title': 'About Me',
-    'about.intro': "I'm Daniel Alanis, a full-stack software engineer with 3+ years of real-world experience building reliable, user-friendly applications.",
-    'about.point1': 'Clear communication',
-    'about.point2': 'Clean architecture',
-    'about.point3': 'A friendly, collaborative mindset',
-    'about.point4': 'Modern, scalable engineering practices',
-    'about.experience': "I've contributed to platforms in healthcare, fintech, e-commerce, cost management, ticketing, AI, and more.",
+    'about.intro': "I started coding to turn complex systems into simple, human experiences. Today, I help businesses scale with clean, maintainable architecture.",
+    'about.point1': 'Friendly expert tone',
+    'about.point2': 'Reliable execution',
+    'about.point3': 'Clear communication',
+    'about.point4': 'Scalable solutions',
+    'about.experience': "I bridge the gap between technical complexity and business goals, delivering results across healthcare, fintech, e-commerce, AI, and SaaS.",
     
     // What I Do
     'whatido.title': 'What I Do',
     'whatido.build.title': 'Build',
-    'whatido.build.desc': 'I develop full-stack features, dashboards, admin panels, authentication flows, and UI systems that feel simple and intuitive.',
+    'whatido.build.desc': 'I develop reliable full-stack applications, from robust backends to intuitive, responsive frontends.',
     'whatido.fix.title': 'Fix',
-    'whatido.fix.desc': 'I resolve deep bugs — database issues, backend inconsistencies, production errors, and UI/UX flaws.',
+    'whatido.fix.desc': 'I resolve critical bugs and performance bottlenecks to ensure your system runs smoothly under pressure.',
     'whatido.optimize.title': 'Optimize',
-    'whatido.optimize.desc': 'I improve legacy codebases, automate workflows, add monitoring, and implement scalable performance improvements.',
+    'whatido.optimize.desc': 'I refactor legacy code and implement modern practices to reduce technical debt and improve maintainability.',
     
     // Projects
     'projects.title': 'Key Projects',
@@ -52,11 +52,11 @@ const translations = {
     'skills.databases': 'Databases',
     'skills.cloud': 'Cloud & DevOps',
     'skills.monitoring': 'Monitoring',
-    'skills.ai': 'AI',
+    'skills.ai': 'AI / Automation',
     
     // Contact
-    'contact.title': 'Let\'s Connect',
-    'contact.subtitle': 'Have a project in mind? Let\'s build something dependable together.',
+    'contact.title': "Let's create something great together.",
+    'contact.subtitle': 'Send me a message — I reply within 24 hours.',
     'contact.name': 'Name',
     'contact.email': 'Email',
     'contact.phone': 'Phone Number',
@@ -68,7 +68,7 @@ const translations = {
     'contact.error': 'Failed to send message. Please try again.',
     
     // Footer
-    'footer.tagline': 'Clean solutions. Calm communication. Real impact.',
+    'footer.tagline': 'Clean Code. Clear Results.',
     'footer.location': 'Saltillo, Coahuila, México',
   },
   es: {
@@ -80,27 +80,27 @@ const translations = {
     
     // Hero
     'hero.title': 'Ingeniero de Software Full-Stack',
-    'hero.subtitle': 'Transformo problemas complejos en código limpio y escalable.',
-    'hero.description': 'Un estilo amigable. Una ejecución minimalista. Resultados reales en salud, fintech, comercio electrónico, IA y SaaS.',
-    'hero.cta': 'Contactar',
+    'hero.subtitle': 'Construyendo soluciones web confiables y escalables para startups y empresas.',
+    'hero.description': 'Desde la idea hasta el despliegue. Transformo sistemas complejos en experiencias humanas simples con arquitectura limpia y mantenible.',
+    'hero.cta': 'Trabajemos Juntos',
     
     // About
     'about.title': 'Sobre Mí',
-    'about.intro': 'Soy Daniel Alanis, un ingeniero de software full-stack con más de 3 años de experiencia desarrollando aplicaciones confiables y orientadas al usuario.',
-    'about.point1': 'Comunicación clara',
-    'about.point2': 'Arquitectura limpia',
-    'about.point3': 'Mentalidad colaborativa',
-    'about.point4': 'Prácticas modernas y escalables',
-    'about.experience': 'He trabajado en proyectos de salud, fintech, e-commerce, gestión de costos, venta de boletos, IA y más.',
+    'about.intro': 'Empecé a programar para convertir sistemas complejos en experiencias simples. Hoy, ayudo a empresas a escalar con arquitectura limpia y mantenible.',
+    'about.point1': 'Experto amigable',
+    'about.point2': 'Ejecución confiable',
+    'about.point3': 'Comunicación clara',
+    'about.point4': 'Soluciones escalables',
+    'about.experience': 'Conecto la complejidad técnica con los objetivos de negocio, entregando resultados en salud, fintech, e-commerce, IA y SaaS.',
     
     // What I Do
     'whatido.title': 'Lo Que Hago',
     'whatido.build.title': 'Construyo',
-    'whatido.build.desc': 'Desarrollo interfaces, paneles administrativos, módulos completos, autenticación y flujos intuitivos.',
+    'whatido.build.desc': 'Desarrollo aplicaciones full-stack confiables, desde backends robustos hasta frontends intuitivos.',
     'whatido.fix.title': 'Soluciono',
-    'whatido.fix.desc': 'Resuelvo bugs complejos: base de datos, backend, errores en producción y problemas de UX/UI.',
+    'whatido.fix.desc': 'Resuelvo errores críticos y cuellos de botella para asegurar que tu sistema funcione bajo presión.',
     'whatido.optimize.title': 'Optimizo',
-    'whatido.optimize.desc': 'Mejoro sistemas legacy, agrego monitoreo, automatizo procesos y aumento el rendimiento.',
+    'whatido.optimize.desc': 'Refactorizo código legado e implemento prácticas modernas para reducir deuda técnica.',
     
     // Projects
     'projects.title': 'Proyectos Destacados',
@@ -112,11 +112,11 @@ const translations = {
     'skills.databases': 'Bases de Datos',
     'skills.cloud': 'Nube y DevOps',
     'skills.monitoring': 'Monitoreo',
-    'skills.ai': 'IA',
+    'skills.ai': 'IA / Automatización',
     
     // Contact
-    'contact.title': 'Conectemos',
-    'contact.subtitle': '¿Tienes un proyecto en mente? Construyamos algo fiable juntos.',
+    'contact.title': 'Creemos algo genial juntos.',
+    'contact.subtitle': 'Envíame un mensaje — respondo dentro de las 24 horas.',
     'contact.name': 'Nombre',
     'contact.email': 'Correo',
     'contact.phone': 'Número de Teléfono',
@@ -128,7 +128,7 @@ const translations = {
     'contact.error': 'Error al enviar el mensaje. Por favor intenta de nuevo.',
     
     // Footer
-    'footer.tagline': 'Soluciones limpias. Comunicación tranquila. Impacto real.',
+    'footer.tagline': 'Código Limpio. Resultados Claros.',
     'footer.location': 'Saltillo, Coahuila, México',
   },
 };

@@ -1,12 +1,10 @@
 import { Box, Container, Typography, Button } from '@mui/material';
 import { motion } from 'framer-motion';
+import Typewriter from 'typewriter-effect';
 import { useLanguage } from '../contexts/LanguageContext';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Hero = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const scrollToContact = () => {
     const element = document.getElementById('contact');
@@ -42,8 +40,8 @@ const Hero = () => {
         alignItems: 'center',
         background: (theme) =>
           theme.palette.mode === 'light'
-            ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
-            : 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+            ? 'linear-gradient(135deg, #F9F9F9 0%, #E9ECEF 100%)'
+            : 'linear-gradient(135deg, #121212 0%, #0a0a0a 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -57,11 +55,15 @@ const Hero = () => {
         >
           <motion.div variants={itemVariants}>
             <Typography
-              variant="h1"
+              variant="h3"
+              component="h2"
               sx={{
                 mb: 2,
-                fontWeight: 700,
-                color: 'primary.main',
+                color: 'text.secondary',
+                fontWeight: 500,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                fontSize: { xs: '1rem', md: '1.25rem' },
               }}
             >
               Daniel Alanis
@@ -70,11 +72,12 @@ const Hero = () => {
           
           <motion.div variants={itemVariants}>
             <Typography
-              variant="h3"
+              variant="h1"
               sx={{
                 mb: 3,
-                color: 'text.secondary',
-                fontWeight: 500,
+                color: 'primary.main',
+                fontWeight: 800,
+                fontSize: { xs: '2.5rem', md: '4rem' },
               }}
             >
               {t('hero.title')}
@@ -85,12 +88,26 @@ const Hero = () => {
             <Typography
               variant="h4"
               sx={{
-                mb: 2,
-                color: 'primary.dark',
+                mb: 4,
+                color: 'text.primary',
                 fontWeight: 600,
+                height: '3.5rem', // Min height to prevent layout shift
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              {t('hero.subtitle')}
+              <Typewriter
+                key={language} // Re-render on language change
+                options={{
+                  strings: [t('hero.subtitle')],
+                  autoStart: true,
+                  delay: 50,
+                  deleteSpeed: 30,
+                  loop: true,
+                  cursor: '_',
+                }}
+              />
             </Typography>
           </motion.div>
 
@@ -98,42 +115,16 @@ const Hero = () => {
             <Typography
               variant="body1"
               sx={{
-                mb: 4,
-                maxWidth: '800px',
+                mb: 5,
+                maxWidth: '700px',
                 mx: 'auto',
                 color: 'text.secondary',
-                fontSize: '1.1rem',
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
               }}
             >
               {t('hero.description')}
             </Typography>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 2,
-                mb: 4,
-                color: 'text.secondary',
-              }}
-            >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <EmailIcon fontSize="small" />
-              <Typography variant="body2">daniel.alanis.hdz@gmail.com</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <PhoneIcon fontSize="small" />
-              <Typography variant="body2">+52 844 146 1714</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <LocationOnIcon fontSize="small" />
-              <Typography variant="body2">Saltillo, Coahuila, México</Typography>
-            </Box>
-            </Box>
           </motion.div>
 
           <motion.div variants={itemVariants}>
@@ -143,9 +134,10 @@ const Hero = () => {
                 size="large"
                 onClick={scrollToContact}
                 sx={{
-                  px: 4,
-                  py: 1.5,
+                  px: 5,
+                  py: 1.8,
                   fontSize: '1.1rem',
+                  borderRadius: '50px',
                 }}
               >
                 {t('hero.cta')}

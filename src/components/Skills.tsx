@@ -82,11 +82,24 @@ const Skills = () => {
                       key={skillIndex}
                       label={skill}
                       sx={{
-                        backgroundColor: 'secondary.main',
-                        color: 'white',
+                        backgroundColor: (theme) => 
+                          theme.palette.mode === 'light' 
+                            ? 'secondary.main' 
+                            : 'rgba(255, 255, 255, 0.08)',
+                        color: (theme) => 
+                          theme.palette.mode === 'light' 
+                            ? '#ffffff' 
+                            : 'text.primary',
+                        border: (theme) => 
+                          theme.palette.mode === 'light' 
+                            ? 'none' 
+                            : '1px solid rgba(255, 255, 255, 0.1)',
                         fontWeight: 500,
                         '&:hover': {
-                          backgroundColor: 'secondary.dark',
+                          backgroundColor: (theme) => 
+                            theme.palette.mode === 'light' 
+                              ? 'secondary.dark' 
+                              : 'rgba(255, 255, 255, 0.15)',
                         },
                       }}
                     />

@@ -42,142 +42,149 @@ const About = () => {
   ];
 
   return (
-    <Box id="about" sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box id="about" sx={{ py: 12, backgroundColor: 'background.default' }}>
       <Container maxWidth="lg" ref={ref}>
-        <Typography
-          component={motion.h2}
-          initial={{ opacity: 0, y: -20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6 }}
-          variant="h2"
-          sx={{
-            mb: 4,
-            textAlign: 'center',
-            color: 'primary.main',
-          }}
-        >
-          {t('about.title')}
-        </Typography>
-
-        <Typography
-          component={motion.p}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          variant="body1"
-          sx={{
-            mb: 3,
-            textAlign: 'center',
-            maxWidth: '800px',
-            mx: 'auto',
-            fontSize: '1.1rem',
-            lineHeight: 1.7,
-            color: 'text.secondary',
-          }}
-        >
-          {t('about.intro')}
-        </Typography>
-
-        <Box sx={{ mb: 4, maxWidth: '600px', mx: 'auto' }}>
-          {[
-            t('about.point1'),
-            t('about.point2'),
-            t('about.point3'),
-            t('about.point4'),
-          ].map((point, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                mb: 1.5,
-              }}
+        <Grid container spacing={6} alignItems="center">
+          <Grid size={{ xs: 12, md: 6 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+              transition={{ duration: 0.6 }}
             >
-              <CheckCircleIcon color="secondary" />
-              <Typography variant="body1">{point}</Typography>
-            </Box>
-          ))}
-        </Box>
-
-        <Typography
-          component={motion.p}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          variant="body1"
-          sx={{
-            mb: 6,
-            textAlign: 'center',
-            maxWidth: '800px',
-            mx: 'auto',
-            fontSize: '1.1rem',
-            lineHeight: 1.7,
-            color: 'text.secondary',
-          }}
-        >
-          {t('about.experience')}
-        </Typography>
-
-        <Typography
-          component={motion.h3}
-          initial={{ opacity: 0, y: -20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          variant="h3"
-          sx={{
-            mb: 4,
-            textAlign: 'center',
-            color: 'primary.main',
-          }}
-        >
-          {t('whatido.title')}
-        </Typography>
-
-        <Grid
-          container
-          spacing={4}
-          component={motion.div}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          {services.map((service, index) => (
-            <Grid key={index} size={{ xs: 12, md: 4 }}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-              >
-              <Paper
-                elevation={0}
+              <Typography
+                variant="h2"
                 sx={{
-                  p: 4,
-                  height: '100%',
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                  mb: 3,
+                  color: 'primary.main',
+                  fontWeight: 700,
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -10,
+                    left: 0,
+                    width: 60,
+                    height: 4,
+                    backgroundColor: 'secondary.main',
+                    borderRadius: 2,
                   },
                 }}
               >
-                <Box sx={{ color: 'secondary.main', mb: 2 }}>
-                  {service.icon}
-                </Box>
-                <Typography
-                  variant="h5"
-                  sx={{ mb: 2, fontWeight: 600, color: 'primary.main' }}
-                >
-                  {service.title}
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                  {service.description}
-                </Typography>
-              </Paper>
-              </motion.div>
+                {t('about.title')}
+              </Typography>
+              
+              <Typography
+                variant="body1"
+                sx={{
+                  mb: 3,
+                  fontSize: '1.25rem',
+                  lineHeight: 1.8,
+                  color: 'text.secondary',
+                }}
+              >
+                {t('about.intro')}
+              </Typography>
+
+              <Typography
+                variant="body1"
+                sx={{
+                  mb: 4,
+                  fontSize: '1.1rem',
+                  lineHeight: 1.7,
+                  color: 'text.secondary',
+                }}
+              >
+                {t('about.experience')}
+              </Typography>
+
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+                {[
+                  t('about.point1'),
+                  t('about.point2'),
+                  t('about.point3'),
+                  t('about.point4'),
+                ].map((point, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                    }}
+                  >
+                    <CheckCircleIcon color="secondary" sx={{ fontSize: 20 }} />
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                      {point}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </motion.div>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Grid
+              container
+              spacing={3}
+              component={motion.div}
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+            >
+              {services.map((service, index) => (
+                <Grid size={{ xs: 12 }} key={index}>
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    whileHover={{ x: 10 }}
+                  >
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        p: 3,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 3,
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        borderRadius: 4,
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          borderColor: 'secondary.main',
+                          boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                        },
+                      }}
+                    >
+                      <Box 
+                        sx={{ 
+                          p: 1.5, 
+                          borderRadius: 2, 
+                          backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                          color: 'secondary.main',
+                          display: 'flex',
+                        }}
+                      >
+                        {service.icon}
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="h5"
+                          sx={{ mb: 0.5, fontWeight: 700, fontSize: '1.25rem' }}
+                        >
+                          {service.title}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                          {service.description}
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  </motion.div>
+                </Grid>
+              ))}
             </Grid>
-          ))}
+          </Grid>
         </Grid>
       </Container>
     </Box>

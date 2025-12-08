@@ -57,10 +57,12 @@ const Navbar = () => {
                 fontSize: '1.5rem',
                 color: 'primary.main',
                 cursor: 'pointer',
+                fontFamily: '"Space Grotesk", sans-serif',
+                letterSpacing: '-0.02em',
               }}
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              Daniel Alanis
+              <Box component="span" sx={{ color: 'text.secondary', opacity: 0.5 }}>{'{'}</Box> DA <Box component="span" sx={{ color: 'text.secondary', opacity: 0.5 }}>{'}'}</Box>
             </Box>
             
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
