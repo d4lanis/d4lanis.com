@@ -1,36 +1,56 @@
 import { createTheme, type PaletteMode } from '@mui/material/styles';
+import type { PaletteColorOptions } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    tertiary: PaletteColorOptions;
+    neutral: PaletteColorOptions;
+  }
+  interface PaletteOptions {
+    tertiary?: PaletteColorOptions;
+    neutral?: PaletteColorOptions;
+  }
+}
 
 export const getTheme = (mode: PaletteMode) => createTheme({
   palette: {
     mode,
     primary: {
-      // Deeper blues for both modes, adjusted for contrast in dark mode
-      main: mode === 'light' ? '#2D5485' : '#5579A8',
-      light: mode === 'light' ? '#5579A8' : '#8CB3D9',
-      dark: mode === 'light' ? '#1E3A5F' : '#2D5485',
+      main: '#00D1FF',
+      light: '#5EE3FF',
+      dark: '#00A3C7',
+      contrastText: mode === 'light' ? '#0B0F1A' : '#0B0F1A',
     },
     secondary: {
-      // Charcoal accents or complementary
-      main: mode === 'light' ? '#333333' : '#E0E0E0',
-      light: mode === 'light' ? '#555555' : '#FFFFFF',
-      dark: mode === 'light' ? '#1A1A1A' : '#CCCCCC',
+      main: '#1E293B',
+      light: '#334155',
+      dark: '#0F172A',
+      contrastText: '#FFFFFF',
+    },
+    tertiary: {
+      main: '#281400',
+      light: '#4D2600',
+      dark: '#1A0E00',
+      contrastText: '#FFFFFF',
     },
     background: {
-      // Off-white / Dark gray
-      default: mode === 'light' ? '#f0f2f5' : '#121212',
-      paper: mode === 'light' ? '#FFFFFF' : '#1E1E1E',
+      default: mode === 'light' ? '#FFFFFF' : '#0B0F1A',
+      paper: mode === 'light' ? '#F8FAFC' : '#1E293B',
     },
     text: {
-      // Charcoal gray vs off-white text
-      primary: mode === 'light' ? '#333333' : '#F0F0F0',
-      secondary: mode === 'light' ? '#5A6B7C' : '#A0A0A0',
+      primary: mode === 'light' ? '#0B0F1A' : '#F1F5F9',
+      secondary: mode === 'light' ? '#64748B' : '#94A3B8',
+    },
+    neutral: {
+      main: '#0B0F1A',
+      light: '#1E293B',
+      dark: '#060A12',
     },
   },
   typography: {
-    // Space Grotesk for titles, Source Sans 3 for body (falling back to Inter/Sans)
-    fontFamily: '"Source Sans 3", "Inter", "Roboto", sans-serif',
+    fontFamily: '"Inter", "Roboto", sans-serif',
     h1: {
-      fontFamily: '"Space Grotesk", "Inter", sans-serif',
+      fontFamily: '"Manrope", "Inter", sans-serif',
       fontSize: '3.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
@@ -39,7 +59,7 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h2: {
-      fontFamily: '"Space Grotesk", "Inter", sans-serif',
+      fontFamily: '"Manrope", "Inter", sans-serif',
       fontSize: '2.5rem',
       fontWeight: 600,
       lineHeight: 1.3,
@@ -48,7 +68,7 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h3: {
-      fontFamily: '"Space Grotesk", "Inter", sans-serif',
+      fontFamily: '"Manrope", "Inter", sans-serif',
       fontSize: '1.75rem',
       fontWeight: 600,
       lineHeight: 1.4,
@@ -57,24 +77,38 @@ export const getTheme = (mode: PaletteMode) => createTheme({
       },
     },
     h4: {
-      fontFamily: '"Space Grotesk", "Inter", sans-serif',
+      fontFamily: '"Manrope", "Inter", sans-serif',
       fontSize: '1.5rem',
       fontWeight: 600,
       lineHeight: 1.4,
     },
     h5: {
-      fontFamily: '"Space Grotesk", "Inter", sans-serif',
+      fontFamily: '"Manrope", "Inter", sans-serif',
       fontSize: '1.25rem',
       fontWeight: 600,
       lineHeight: 1.5,
     },
     body1: {
+      fontFamily: '"Inter", "Roboto", sans-serif',
       fontSize: '1rem',
       lineHeight: 1.7,
     },
     body2: {
+      fontFamily: '"Inter", "Roboto", sans-serif',
       fontSize: '0.875rem',
       lineHeight: 1.6,
+    },
+    button: {
+      fontFamily: '"Inter", "Roboto", sans-serif',
+      fontWeight: 600,
+    },
+    caption: {
+      fontFamily: '"Inter", "Roboto", sans-serif',
+    },
+    overline: {
+      fontFamily: '"Inter", "Roboto", sans-serif',
+      fontWeight: 600,
+      letterSpacing: '0.08em',
     },
   },
   components: {
@@ -86,12 +120,12 @@ export const getTheme = (mode: PaletteMode) => createTheme({
           fontWeight: 600,
           padding: '10px 24px',
           fontSize: '1rem',
-          fontFamily: '"Space Grotesk", "Inter", sans-serif',
+          fontFamily: '"Inter", "Roboto", sans-serif',
         },
         contained: {
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            boxShadow: '0 4px 12px rgba(0, 209, 255, 0.3)',
           },
         },
       },

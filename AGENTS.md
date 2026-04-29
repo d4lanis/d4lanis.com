@@ -11,7 +11,7 @@ This is a modern, responsive personal portfolio landing page built with React, T
 - **Styling**: Material-UI (MUI) with custom theming
 - **Animations**: Framer Motion
 - **Deployment**: Appwrite Sites (Static Hosting)
-- **Database**: Appwrite Database (Contact form storage)
+- **Form**: Formspree (Contact form submissions)
 - **Language Support**: Bilingual (English/Spanish)
 
 ## Project Architecture & Structure
@@ -406,7 +406,7 @@ function ResponsiveComponent() {
 - **Accessibility**: Easy to click/copy contact details
 - **Response Time**: Set expectations for reply time
 - **Form Validation**: Clear error messages with proper validation
-- **Form Storage**: Contact form submissions stored in Appwrite Database
+- **Form Submission**: Contact form submissions handled by Formspree
 - **Data Privacy**: Clear privacy policy for collected data
 
 ## Internationalization (i18n)
@@ -479,71 +479,54 @@ const translations = {
 - **Environment Variables**: Set in Appwrite project settings
 - **Git Integration**: Connect repository for automatic deployments
 
-### Appwrite Database Integration
+### Formspree Integration
 
 #### Contact Form Setup
 
 ```typescript
-// Configure Appwrite client
-import { Client, Databases, ID } from 'appwrite';
+import { useForm, ValidationError } from '@formspree/react';
 
-const client = new Client()
-  .setEndpoint('https://cloud.appwrite.io/v1') // Your Appwrite endpoint
-  .setProject('[PROJECT_ID]'); // Your project ID
-
-const databases = new Databases(client);
-
-// Save contact form submission
-const saveContactForm = async (formData: ContactFormData) => {
-  try {
-    const response = await databases.createDocument(
-      '[DATABASE_ID]',      // Your database ID
-      '[COLLECTION_ID]',    // Your collection ID
-      ID.unique(),          // Generate unique document ID
-      {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        timestamp: new Date().toISOString(),
-      }
-    );
-    return response;
-  } catch (error) {
-    console.error('Error saving contact form:', error);
-    throw error;
-  }
-};
+function ContactForm() {
+  const [state, handleSubmit] = useForm('YOUR_FORM_ID');
+  if (state.succeeded) return <p>Thanks!</p>;
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" required />
+      <ValidationError field="name" errors={state.errors} />
+      <input type="email" name="email" required />
+      <ValidationError field="email" errors={state.errors} />
+      <textarea name="message" required />
+      <ValidationError field="message" errors={state.errors} />
+      <button type="submit" disabled={state.submitting}>Send</button>
+    </form>
+  );
+}
 ```
 
-#### Database Schema for Contact Form
+#### Form Configuration
 
-**Collection: `contacts`**
-
-| Attribute   | Type     | Required | Description                 |
-|-------------|----------|----------|-----------------------------||
-| name        | string   | Yes      | Sender's name               |
-| email       | string   | Yes      | Sender's email address      |
-| message     | string   | Yes      | Message content             |
-| timestamp   | datetime | Yes      | Submission timestamp        |
-| status      | string   | No       | Status (new/read/replied)   |
+1. Create account at https://formspree.io/
+2. Create a new form and note the Form ID from the URL
+3. In the form settings, add fields with these names:
+   - `name` (text, required)
+   - `email` (email, required)
+   - `message` (textarea, required)
+   - `phoneNumber` (tel, optional)
+4. Configure email notifications in the Formspree dashboard
 
 #### Environment Variables
 
 ```bash
-# .env.local
-VITE_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-VITE_APPWRITE_PROJECT_ID=your_project_id
-VITE_APPWRITE_DATABASE_ID=your_database_id
-VITE_APPWRITE_COLLECTION_ID=your_collection_id
+# .env
+VITE_FORMSPREE_FORM_ID=your_form_id
 ```
 
 #### Security Considerations
 
-- **API Keys**: Never expose API keys in client-side code
-- **Permissions**: Set proper collection permissions (allow guests to create documents)
-- **Rate Limiting**: Implement rate limiting for form submissions
-- **Validation**: Validate all inputs on both client and server side
-- **Spam Protection**: Consider implementing CAPTCHA or honeypot fields
+- Formspree handles spam protection automatically
+- Rate limiting is built into Formspree
+- Formspree provides reCAPTCHA protection
+- All form data is encrypted in transit
 
 ## Testing Guidelines
 
