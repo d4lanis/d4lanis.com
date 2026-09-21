@@ -65,7 +65,59 @@ const Footer = () => {
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
             {t('footer.location')}
           </Typography>
-          
+
+          <Box
+            component="nav"
+            aria-label={t('footer.legal')}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: { xs: 1.5, sm: 3 },
+              mt: 3,
+            }}
+          >
+            <Typography
+              component="a"
+              href="/privacy-policy"
+              variant="body2"
+              sx={{
+                color: 'white',
+                opacity: 0.9,
+                textDecoration: 'none',
+                '&:hover': { opacity: 1, textDecoration: 'underline' },
+              }}
+            >
+              {t('footer.privacy')}
+            </Typography>
+            <Typography
+              component="a"
+              href="/terms"
+              variant="body2"
+              sx={{
+                color: 'white',
+                opacity: 0.9,
+                textDecoration: 'none',
+                '&:hover': { opacity: 1, textDecoration: 'underline' },
+              }}
+            >
+              {t('footer.terms')}
+            </Typography>
+            <Typography
+              component="a"
+              href="/data-deletion"
+              variant="body2"
+              sx={{
+                color: 'white',
+                opacity: 0.9,
+                textDecoration: 'none',
+                '&:hover': { opacity: 1, textDecoration: 'underline' },
+              }}
+            >
+              {t('footer.deletion')}
+            </Typography>
+          </Box>
+
           <Typography variant="body2" sx={{ mt: 2, opacity: 0.7 }}>
             © {new Date().getFullYear()} Daniel Alanis. All rights reserved.
           </Typography>

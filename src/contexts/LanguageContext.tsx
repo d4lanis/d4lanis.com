@@ -70,6 +70,10 @@ const translations = {
     // Footer
     'footer.tagline': 'Clean Code. Clear Results.',
     'footer.location': 'Saltillo, Coahuila, México',
+    'footer.legal': 'Legal',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Service',
+    'footer.deletion': 'Data Deletion',
   },
   es: {
     // Navigation
@@ -130,6 +134,10 @@ const translations = {
     // Footer
     'footer.tagline': 'Código Limpio. Resultados Claros.',
     'footer.location': 'Saltillo, Coahuila, México',
+    'footer.legal': 'Legal',
+    'footer.privacy': 'Política de Privacidad',
+    'footer.terms': 'Términos del Servicio',
+    'footer.deletion': 'Eliminación de Datos',
   },
 };
 
