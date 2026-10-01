@@ -11,7 +11,7 @@ This is a modern, responsive personal portfolio landing page built with React, T
 - **Styling**: Material-UI (MUI) with custom theming
 - **Animations**: Framer Motion
 - **Deployment**: Appwrite Sites (Static Hosting)
-- **Form**: Formspree (Contact form submissions)
+- **Form**: n8n webhook + Data Table (Contact form submissions, replaces Formspree)
 - **Language Support**: Bilingual (English/Spanish)
 
 ## Project Architecture & Structure
@@ -406,7 +406,7 @@ function ResponsiveComponent() {
 - **Accessibility**: Easy to click/copy contact details
 - **Response Time**: Set expectations for reply time
 - **Form Validation**: Clear error messages with proper validation
-- **Form Submission**: Contact form submissions handled by Formspree
+- **Form Submission**: Contact form submissions sent to n8n lead endpoint
 - **Data Privacy**: Clear privacy policy for collected data
 
 ## Internationalization (i18n)
@@ -479,54 +479,55 @@ const translations = {
 - **Environment Variables**: Set in Appwrite project settings
 - **Git Integration**: Connect repository for automatic deployments
 
-### Formspree Integration
+### Lead Capture Integration (n8n)
+
+Form submissions are sent by `fetch` as JSON to an n8n webhook (replaces the former Formspree integration). The workflow "Form Endpoint - Leads" (id `SFYOn9aTV7kgLD1X`) on `automations.d4lanis.com` validates nothing beyond transport: it normalizes the payload and inserts a row into the n8n internal **Data Table `leads`** (id `oLfCDpsrxUvYBuz1`) with columns `created_at`, `form`, `email`, `data` (full raw JSON of the submission), `ip`. Responds `200 { success: true, id }`.
 
 #### Contact Form Setup
 
 ```typescript
-import { useForm, ValidationError } from '@formspree/react';
-
-function ContactForm() {
-  const [state, handleSubmit] = useForm('YOUR_FORM_ID');
-  if (state.succeeded) return <p>Thanks!</p>;
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="name" required />
-      <ValidationError field="name" errors={state.errors} />
-      <input type="email" name="email" required />
-      <ValidationError field="email" errors={state.errors} />
-      <textarea name="message" required />
-      <ValidationError field="message" errors={state.errors} />
-      <button type="submit" disabled={state.submitting}>Send</button>
-    </form>
-  );
+async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  const data = new FormData(e.currentTarget);
+  await fetch(import.meta.env.VITE_LEAD_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.get('name'),
+      email: data.get('email'),
+      phoneNumber: data.get('phoneNumber'),
+      message: data.get('message'),
+      form_id: 'd4lanis-contact',
+    }),
+  });
 }
 ```
 
 #### Form Configuration
 
-1. Create account at https://formspree.io/
-2. Create a new form and note the Form ID from the URL
-3. In the form settings, add fields with these names:
-   - `name` (text, required)
-   - `email` (email, required)
-   - `message` (textarea, required)
-   - `phoneNumber` (tel, optional)
-4. Configure email notifications in the Formspree dashboard
+Fields posted (defined in `src/components/Contact.tsx`):
+- `name` (text, required)
+- `email` (email, required)
+- `message` (textarea, required)
+- `phoneNumber` (tel, optional)
+- `form_id` (string, source form identifier)
+
+Any extra field added to the payload is stored automatically inside the `data` JSON column — no schema migration needed. Review/export submissions in n8n: **Data Tables → leads**.
+
+To add another form, reuse the same endpoint with a different `form_id` value.
 
 #### Environment Variables
 
 ```bash
 # .env
-VITE_FORMSPREE_FORM_ID=your_form_id
+VITE_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead
 ```
 
 #### Security Considerations
 
-- Formspree handles spam protection automatically
-- Rate limiting is built into Formspree
-- Formspree provides reCAPTCHA protection
-- All form data is encrypted in transit
+- No third-party service touches the data; storage lives in the n8n instance DB
+- No built-in spam protection anymore: honeypot/reCAPTCHA and email notifications are planned as v2 in the n8n workflow
+- The webhook is public and unauthenticated by design (open form endpoint); do not store sensitive data in new fields without review
 
 ## Testing Guidelines
 

@@ -11,26 +11,51 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import { useForm, ValidationError } from '@formspree/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SendIcon from '@mui/icons-material/Send';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
 
+const LEAD_ENDPOINT = import.meta.env.VITE_LEAD_ENDPOINT;
+const FORM_ID = 'd4lanis-contact';
+
 const Contact = () => {
   const { t } = useLanguage();
-  const [state, handleSubmit] = useForm('xeenjqzb');
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  if (state.succeeded && !showSuccess) {
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 5000);
-  }
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setShowSuccess(false);
-    await handleSubmit(e);
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get('name') ?? ''),
+      email: String(data.get('email') ?? ''),
+      phoneNumber: String(data.get('phoneNumber') ?? ''),
+      message: String(data.get('message') ?? ''),
+      form_id: FORM_ID,
+    };
+
+    setSubmitting(true);
+    setSuccess(false);
+    setError(false);
+    try {
+      const res = await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      form.reset();
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 5000);
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -137,7 +162,6 @@ const Contact = () => {
                 sx: { borderRadius: 2 }
               }}
             />
-            <ValidationError prefix="Name" field="name" errors={state.errors} />
 
             <TextField
               fullWidth
@@ -150,7 +174,6 @@ const Contact = () => {
                 sx: { borderRadius: 2 }
               }}
             />
-            <ValidationError prefix="Email" field="email" errors={state.errors} />
 
             <TextField
               fullWidth
@@ -164,7 +187,6 @@ const Contact = () => {
                 sx: { borderRadius: 2 }
               }}
             />
-            <ValidationError prefix="Phone Number" field="phoneNumber" errors={state.errors} />
 
             <TextField
               fullWidth
@@ -178,15 +200,14 @@ const Contact = () => {
                 sx: { borderRadius: 2 }
               }}
             />
-            <ValidationError prefix="Message" field="message" errors={state.errors} />
 
-            {showSuccess && (
+            {success && (
               <Alert severity="success" sx={{ mb: 3, borderRadius: 2 }}>
                 {t('contact.success')}
               </Alert>
             )}
 
-            {state.errors && Object.keys(state.errors).length > 0 && !showSuccess && (
+            {error && !success && (
               <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
                 {t('contact.error')}
               </Alert>
@@ -197,11 +218,11 @@ const Contact = () => {
               variant="contained"
               size="large"
               fullWidth
-              disabled={state.submitting}
+              disabled={submitting}
               endIcon={<SendIcon />}
               sx={{ py: 1.5, borderRadius: 2, fontSize: '1.1rem' }}
             >
-              {state.submitting ? t('contact.sending') : t('contact.send')}
+              {submitting ? t('contact.sending') : t('contact.send')}
             </Button>
           </form>
         </Paper>
