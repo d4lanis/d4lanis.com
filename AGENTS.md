@@ -481,7 +481,11 @@ const translations = {
 
 ### Lead Capture Integration (n8n)
 
-Form submissions are sent by `fetch` as JSON to an n8n webhook (replaces the former Formspree integration). The workflow "Form Endpoint - Leads" (id `SFYOn9aTV7kgLD1X`) on `automations.d4lanis.com` validates nothing beyond transport: it normalizes the payload and inserts a row into the n8n internal **Data Table `leads`** (id `oLfCDpsrxUvYBuz1`) with columns `created_at`, `form`, `email`, `data` (full raw JSON of the submission), `ip`. Responds `200 { success: true, id }`.
+Form submissions are sent by `fetch` as JSON to an n8n webhook (replaces the former Formspree integration). The workflow "Form Endpoint - Leads" (id `SFYOn9aTV7kgLD1X`) on `automations.d4lanis.com` is **multi-site**: the `?site=<slug>` query param identifies the client and is validated against the n8n Data Table `sites` (id `Z6ZFGYysVVnHDyf7`: columns `slug`, `site_name`, `notify_emails`, `active`). Unregistered/inactive slugs get 403, malformed 400. Valid leads are inserted into the Data Table `leads` (id `rEOtxW40rbfqSFKv`) with columns `created_at`, `site`, `form`, `email`, `ip`, `data` (full raw JSON of the submission). Responds `200 { success: true, id }`.
+
+Adding a new static site (React/Vite/Astro) = insert one row in `sites` + point its form to `.../webhook/form/lead?site=<slug>`. No workflow changes, no deploys of the endpoint.
+
+Note: n8n production webhooks on this instance do NOT resolve `:param` route segments (they register as literal strings); the site identifier must travel in the query string.
 
 #### Contact Form Setup
 
@@ -520,7 +524,7 @@ To add another form, reuse the same endpoint with a different `form_id` value.
 
 ```bash
 # .env
-VITE_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead
+VITE_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lanis
 ```
 
 #### Security Considerations
