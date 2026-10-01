@@ -17,7 +17,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
 
-const LEAD_ENDPOINT = import.meta.env.VITE_LEAD_ENDPOINT;
+const SITE_SLUG = 'd4lanis';
+const RAW_LEAD_ENDPOINT = import.meta.env.VITE_LEAD_ENDPOINT || '';
+const LEAD_ENDPOINT = /\?[^\s]*site=/.test(RAW_LEAD_ENDPOINT)
+  ? RAW_LEAD_ENDPOINT
+  : `${RAW_LEAD_ENDPOINT.split('?')[0]}?site=${SITE_SLUG}`;
 const FORM_ID = 'd4lanis-contact';
 
 const Contact = () => {
