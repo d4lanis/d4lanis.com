@@ -1,0 +1,83 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <p class="hero__kicker kicker reveal">Daniel Alanis</p>
+
+    <h1 class="hero__title reveal" style="transition-delay:0.1s">{t('hero.title')}</h1>
+
+    <p class="hero__lead lead reveal" style="transition-delay:0.2s">{t('hero.subtitle')}</p>
+
+    <p class="hero__description reveal" style="transition-delay:0.3s">{t('hero.description')}</p>
+
+    <div class="hero__cta reveal" style="transition-delay:0.4s">
+      <a class="btn btn--primary btn--lg" href="#contact">{t('hero.cta')}</a>
+      <a class="btn btn--outline btn--lg" href="#projects">{t('nav.projects')}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: min(88vh, 820px);
+    padding-block: var(--space-12);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .hero__inner {
+    max-width: 900px;
+  }
+
+  .hero__kicker {
+    margin-bottom: 24px;
+  }
+
+  .hero__title {
+    margin-bottom: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .hero__lead {
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .hero__description {
+    max-width: 58ch;
+    margin-bottom: 40px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .hero {
+      min-height: auto;
+      padding-block: var(--space-8);
+    }
+
+    .hero__cta {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>

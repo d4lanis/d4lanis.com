@@ -1,0 +1,308 @@
+---
+import Icon from './ui/Icon.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="contact__grid">
+      <div class="contact__intro reveal">
+        <p class="kicker">04 · {t('nav.contact')}</p>
+        <h2 class="contact__title">{t('contact.title')}</h2>
+        <p class="contact__subtitle">{t('contact.subtitle')}</p>
+
+        <div class="contact__socials">
+          <a
+            class="contact__social"
+            href="https://www.linkedin.com/in/daniel-alanis-hdz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('aria.linkedin')}
+          >
+            <Icon name="linkedin" size={20} />
+          </a>
+          <a
+            class="contact__social"
+            href="https://github.com/D4lanis"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('aria.github')}
+          >
+            <Icon name="github" size={20} />
+          </a>
+          <a
+            class="contact__social"
+            href="mailto:daniel.alanis.hdz@gmail.com"
+            aria-label={t('aria.email')}
+          >
+            <Icon name="mail" size={20} />
+          </a>
+        </div>
+      </div>
+
+      <div class="contact__form-wrap reveal" style="transition-delay:0.12s">
+        <form data-contact-form novalidate>
+          <div class="field">
+            <label class="field__label" for="name">{t('contact.name')}</label>
+            <input class="field__input" type="text" id="name" name="name" required />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="email">{t('contact.email')}</label>
+            <input class="field__input" type="email" id="email" name="email" required />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="phoneNumber">{t('contact.phone')}</label>
+            <input
+              class="field__input"
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="+1 (555) 000-0000"
+            />
+            <span class="field__hint">{t('contact.phoneOptional')}</span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="message">{t('contact.message')}</label>
+            <textarea class="field__input" id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <div class="alert alert--success" data-alert-success role="status" hidden>
+            {t('contact.success')}
+          </div>
+          <div class="alert alert--error" data-alert-error role="alert" hidden>
+            {t('contact.error')}
+          </div>
+
+          <button
+            class="btn btn--primary btn--block contact__submit"
+            type="submit"
+            data-send-label={t('contact.send')}
+            data-sending-label={t('contact.sending')}
+          >
+            <span data-submit-label>{t('contact.send')}</span>
+            <Icon name="send" size={18} />
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .contact__intro .kicker {
+    margin-bottom: 24px;
+  }
+
+  .contact__title {
+    margin-bottom: 20px;
+    max-width: 16ch;
+    font-weight: 500;
+  }
+
+  .contact__subtitle {
+    max-width: 40ch;
+    margin-bottom: 32px;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .contact__socials {
+    display: flex;
+    gap: 10px;
+  }
+
+  .contact__social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    transition: border-color 180ms ease, color 180ms ease;
+  }
+
+  .contact__social:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .contact__form-wrap {
+    padding-top: 6px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+  }
+
+  .field__label {
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .field__input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 180ms ease;
+  }
+
+  .field__input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .field__input:focus {
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .field__hint {
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  .alert {
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.92rem;
+  }
+
+  .alert--success {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .alert--error {
+    background-color: rgba(155, 44, 44, 0.1);
+    color: #8f2323;
+  }
+
+  :global([data-theme='dark']) .alert--error {
+    color: #e6a1a1;
+  }
+
+  @media (max-width: 899px) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .contact__title {
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  function initContactForm() {
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+    if (!form) return;
+
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]');
+    const successAlert = document.querySelector<HTMLElement>('[data-alert-success]');
+    const errorAlert = document.querySelector<HTMLElement>('[data-alert-error]');
+    if (!submitButton || !successAlert || !errorAlert) return;
+
+    const RAW_ENDPOINT = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
+    const SITE_SLUG = 'd4lanis';
+    const FORM_ID = 'd4lanis-contact';
+    const endpoint = /\?[^\s]*site=/.test(RAW_ENDPOINT)
+      ? RAW_ENDPOINT
+      : `${RAW_ENDPOINT.split('?')[0]}?site=${SITE_SLUG}`;
+
+    if (!/^https?:\/\//.test(endpoint)) {
+      console.warn(
+        '[contact] PUBLIC_LEAD_ENDPOINT is not configured. Form submissions will fail.',
+      );
+    }
+
+    let hideTimer: number | undefined;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        name: String(data.get('name') ?? ''),
+        email: String(data.get('email') ?? ''),
+        phoneNumber: String(data.get('phoneNumber') ?? ''),
+        message: String(data.get('message') ?? ''),
+        form_id: FORM_ID,
+      };
+
+      submitButton.disabled = true;
+      if (submitLabel) submitLabel.textContent = submitButton.dataset.sendingLabel || '';
+      successAlert.hidden = true;
+      errorAlert.hidden = true;
+      if (hideTimer) window.clearTimeout(hideTimer);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        form.reset();
+        successAlert.hidden = false;
+        hideTimer = window.setTimeout(() => {
+          successAlert.hidden = true;
+        }, 5000);
+      } catch {
+        errorAlert.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        if (submitLabel) submitLabel.textContent = submitButton.dataset.sendLabel || '';
+      }
+    });
+  }
+
+  initContactForm();
+</script>

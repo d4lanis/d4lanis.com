@@ -1,0 +1,180 @@
+---
+import Icon from './ui/Icon.astro';
+import type { Project } from '../data/projects';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  viewLabel: string;
+  stackLabel: string;
+  index: number;
+}
+
+const { project, lang, viewLabel, stackLabel, index } = Astro.props;
+
+const title = lang === 'es' ? project.titleEs : project.titleEn;
+const description = lang === 'es' ? project.descriptionEs : project.descriptionEn;
+const highlights = lang === 'es' ? project.highlights.es : project.highlights.en;
+const tech = project.tech;
+const label = String(index + 1).padStart(2, '0');
+---
+
+<article class="project">
+  <span class="project__index" aria-hidden="true">{label}</span>
+
+  <div class="project__main">
+    <h3 class="project__title">{title}</h3>
+    <p class="project__desc">{description}</p>
+
+    {
+      project.link && (
+        <a
+          class="btn btn--text project__link"
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {viewLabel}
+          <Icon name="launch" size={16} />
+        </a>
+      )
+    }
+  </div>
+
+  <div class="project__meta">
+    <p class="project__meta-label">{stackLabel}</p>
+    <ul class="project__tech">
+      {tech.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <ul class="project__highlights">
+      {highlights.map((highlight) => <li>{highlight}</li>)}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .project {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 36px;
+    border-top: 1px solid var(--divider);
+  }
+
+  .project__index {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    transition: color 200ms ease;
+  }
+
+  .project:hover .project__index {
+    color: var(--accent);
+  }
+
+  .project__title {
+    margin-bottom: 10px;
+    font-weight: 600;
+    transition: color 200ms ease;
+  }
+
+  .project:hover .project__title {
+    color: var(--accent);
+  }
+
+  .project__desc {
+    margin-bottom: 16px;
+    max-width: 42ch;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .project__link {
+    align-self: flex-start;
+  }
+
+  .project__meta {
+    min-width: 0;
+  }
+
+  .project__meta-label {
+    margin-bottom: 10px;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .project__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin-bottom: 18px;
+    list-style: none;
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  .project__tech li:not(:last-child)::after {
+    content: '·';
+    margin-left: 10px;
+    color: var(--text-muted);
+  }
+
+  .project__highlights {
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .project__highlights li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 6px;
+    line-height: 1.55;
+  }
+
+  .project__highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 10px;
+    height: 1px;
+    background-color: var(--accent);
+  }
+
+  @media (max-width: 899px) {
+    .project {
+      grid-template-columns: 56px 1fr;
+      gap: 20px;
+    }
+
+    .project__meta {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .project {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding-block: 28px;
+    }
+
+    .project__index {
+      font-size: 1.2rem;
+    }
+
+    .project__meta {
+      grid-column: auto;
+    }
+  }
+</style>

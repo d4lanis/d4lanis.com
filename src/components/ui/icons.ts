@@ -1,0 +1,17 @@
+export type IconName =
+  | 'sun'
+  | 'moon'
+  | 'language'
+  | 'menu'
+  | 'close'
+  | 'check'
+  | 'build'
+  | 'bug'
+  | 'speed'
+  | 'code'
+  | 'launch'
+  | 'send'
+  | 'mail'
+  | 'phone'
+  | 'linkedin'
+  | 'github';

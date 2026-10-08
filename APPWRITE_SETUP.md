@@ -1,5 +1,9 @@
 # Appwrite Contact Form Setup Guide
 
+> **Note:** The contact form no longer uses Appwrite. Submissions are sent to the n8n lead workflow
+> (`PUBLIC_LEAD_ENDPOINT`, see `AGENTS.md` → "Lead Capture Integration (n8n)"). This document is kept
+> for historical reference only.
+
 This guide will help you configure your Appwrite database to receive contact form submissions from your portfolio website.
 
 ## Prerequisites

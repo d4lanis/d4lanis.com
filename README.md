@@ -1,26 +1,26 @@
 # Daniel Alanis - Portfolio Website
 
-A modern, bilingual (English/Spanish) portfolio website built with React, TypeScript, and Material UI.
+A modern, bilingual (English/Spanish) portfolio website built with **Astro**, TypeScript, and hand-written CSS. Fully static, with minimal JavaScript.
 
 ## 🚀 Features
 
-- **Dark Mode**: Automatic theme detection based on system preference with manual toggle
-- **Bilingual Support**: Toggle between English and Spanish
-- **Modern Design**: Clean, minimalist UI with Material UI
-- **Responsive**: Mobile-first design that works on all devices
-- **Contact Form**: Integrated with EmailJS for direct messaging
-- **Projects Showcase**: Highlights key projects with tech stacks and achievements
-- **Skills Display**: Organized by category (Frontend, Backend, Cloud, AI, etc.)
-- **Smooth Animations**: Subtle transitions and hover effects
+- **Dark Mode**: Automatic theme detection based on system preference, plus a manual toggle (persisted in `localStorage`, no flash on load)
+- **Bilingual (real routes)**: English at `/`, Spanish at `/es/` — both prerendered and indexable
+- **Static & fast**: no UI framework, no animation runtime; only tiny amounts of client JS
+- **Contact Form**: posts JSON to an n8n lead endpoint
+- **Projects Showcase**: highlights key projects with tech stacks and achievements
+- **Skills Display**: organized by category (Frontend, Backend, Cloud, AI, etc.)
+- **Smooth Animations**: CSS transitions + IntersectionObserver reveal, respecting `prefers-reduced-motion`
 
 ## 🛠️ Tech Stack
 
-- **Framework**: React 18 + Vite
+- **Framework**: Astro (static site generation)
 - **Language**: TypeScript
-- **UI Library**: Material UI (MUI)
-- **Styling**: Emotion (CSS-in-JS)
-- **Email**: EmailJS
-- **Icons**: Material Icons
+- **Styling**: CSS with design tokens + scoped component styles
+- **Animations**: CSS + a small IntersectionObserver script (no runtime)
+- **Icons**: inline SVG (`src/components/ui/Icon.astro`)
+- **Fonts**: self-hosted variable fonts (`@fontsource-variable/manrope`, `@fontsource-variable/inter`)
+- **Form backend**: n8n webhook + Data Table
 
 ## 📦 Installation
 
@@ -36,72 +36,61 @@ npm run build
 
 # Preview production build
 npm run preview
+
+# Type-check / lint
+npm run check
+npm run lint
 ```
+
+The dev server runs on `http://localhost:4321`.
 
 ## 🔧 Configuration
 
-### EmailJS Setup
+Copy `.env.example` to `.env` and set the lead endpoint:
 
-To enable the contact form:
-
-1. Sign up at [EmailJS](https://www.emailjs.com/)
-2. Create a service and template
-3. Update `src/components/Contact.tsx` with your credentials:
-
-```typescript
-await emailjs.send(
-  'YOUR_SERVICE_ID',
-  'YOUR_TEMPLATE_ID',
-  { /* template params */ },
-  'YOUR_PUBLIC_KEY'
-);
+```env
+PUBLIC_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lanis
 ```
+
+> Astro only exposes variables prefixed with `PUBLIC_` to the client. The value is inlined at build time.
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Navbar.tsx        # Navigation with theme & language toggles
-│   ├── Hero.tsx          # Hero section with CTA
-│   ├── About.tsx         # About me and what I do
-│   ├── Projects.tsx      # Project cards
-│   ├── Skills.tsx        # Skills by category
-│   ├── Contact.tsx       # Contact form
-│   └── Footer.tsx        # Footer with links
-├── contexts/
-│   ├── ThemeContext.tsx     # Dark mode with system detection
-│   └── LanguageContext.tsx  # Bilingual support
-├── data/
-│   ├── projects.ts       # Project data
-│   └── skills.ts         # Skills data
-├── theme.ts              # MUI theme configuration (light/dark)
-├── App.tsx               # Main app component
-└── main.tsx              # Entry point
+│   ├── Navbar.astro        # Navigation, theme + language toggles, mobile drawer
+│   ├── Hero.astro          # Hero section with typewriter
+│   ├── About.astro         # About me + "What I do"
+│   ├── Projects.astro      # Projects grid
+│   ├── ProjectCard.astro   # Single project card
+│   ├── Skills.astro        # Skills by category
+│   ├── Contact.astro       # Contact form (vanilla fetch)
+│   ├── Footer.astro        # Footer
+│   ├── HomePage.astro      # Composes all sections for a language
+│   └── ui/                 # Icon component + icon types
+├── layouts/
+│   ├── BaseLayout.astro    # <head>, SEO/OG/hreflang, theme init, reveal script
+│   └── LegalLayout.astro   # Header/footer + typography for legal pages
+├── i18n/                   # ui.ts (dictionaries) + utils.ts (helpers)
+├── data/                   # projects.ts, skills.ts
+├── styles/                 # tokens.css, global.css
+└── pages/                  # index, es/index, privacy-policy, terms, data-deletion
 ```
 
 ## 🌐 Deployment
 
-### Netlify
+Static output goes to `dist/`. Any static host works:
 
-```bash
-npm run build
-# Deploy the 'dist' folder
-```
+### Appwrite Sites (primary)
 
-### Vercel
+- **Build command**: `npm run build`
+- **Publish directory**: `dist`
+- Set `PUBLIC_LEAD_ENDPOINT` in the project environment variables
 
-```bash
-npm run build
-# Deploy with Vercel CLI or connect your repository
-```
+### Netlify / Vercel
 
-### GitHub Pages
-
-```bash
-npm run build
-# Deploy the 'dist' folder to gh-pages branch
-```
+- Build command `npm run build`, publish `dist` (Netlify config is in `netlify.toml`; Vercel auto-detects Astro)
 
 ## 📝 Customization
 
@@ -109,7 +98,7 @@ npm run build
 
 Edit `src/data/projects.ts`:
 
-```typescript
+```ts
 {
   titleEn: 'Project Name',
   titleEs: 'Nombre del Proyecto',
@@ -118,8 +107,8 @@ Edit `src/data/projects.ts`:
   tech: ['React', 'Node.js'],
   highlights: {
     en: ['Achievement 1', 'Achievement 2'],
-    es: ['Logro 1', 'Logro 2']
-  }
+    es: ['Logro 1', 'Logro 2'],
+  },
 }
 ```
 
@@ -127,20 +116,20 @@ Edit `src/data/projects.ts`:
 
 Edit `src/data/skills.ts`:
 
-```typescript
+```ts
 {
-  category: 'categoryKey',
-  skills: ['Skill 1', 'Skill 2']
+  category: 'categoryKey', // must have a matching skills.<key> translation
+  skills: ['Skill 1', 'Skill 2'],
 }
 ```
 
-### Changing Theme Colors
+### Changing Colors / Typography
 
-Edit `src/theme.ts` to customize colors, typography, and component styles for both light and dark modes.
+Edit the design tokens in `src/styles/tokens.css` (light values on `:root`, dark values on `[data-theme="dark"]`).
 
-### Dark Mode
+### Editing Copy / Translations
 
-The app automatically detects your system's color scheme preference and applies the corresponding theme. Users can also manually toggle between light and dark modes using the sun/moon icon in the navbar. The preference is saved in localStorage.
+Edit `src/i18n/ui.ts`. Add each key to both `en` and `es`.
 
 ## 📄 License
 
@@ -149,10 +138,11 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👤 Author
 
 **Daniel Alanis**
+
 - Email: daniel.alanis.hdz@gmail.com
 - Phone: +52 844 146 1714
 - Location: Saltillo, Coahuila, México
 
 ---
 
-Built with ❤️ using React, TypeScript, and Material UI
+Built with Astro, TypeScript, and a lot of CSS.

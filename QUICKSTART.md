@@ -4,7 +4,7 @@
 
 ### Prerequisites
 - Node.js 18+ installed
-- npm or yarn package manager
+- npm (or another package manager)
 
 ### Installation
 
@@ -13,32 +13,32 @@
    npm install
    ```
 
-2. **Configure EmailJS (Optional)**
-   
+2. **Configure the lead endpoint**
+
    Copy the example environment file:
    ```bash
    cp .env.example .env
    ```
-   
-   Edit `.env` and add your EmailJS credentials:
-   - Sign up at https://www.emailjs.com/
-   - Create a service and template
-   - Add your credentials to `.env`
 
-3. **Start development server**
+   Edit `.env` and set the n8n lead endpoint:
+   ```env
+   PUBLIC_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lanis
+   ```
+   (Astro only exposes `PUBLIC_`-prefixed variables to the client.)
+
+3. **Start the development server**
    ```bash
    npm run dev
    ```
-   
-   Open http://localhost:5173 in your browser
+
+   Open http://localhost:4321 in your browser.
 
 ### Development
 
-- **Hot reload**: Changes are automatically reflected
-- **Dark mode**: Click the sun/moon icon in the navbar to toggle themes
-- **Language toggle**: Use the globe icon in the navbar
-- **Smooth scrolling**: Click navigation items to scroll to sections
-- **Auto theme detection**: App respects your system's color scheme preference
+- **Hot reload**: changes are reflected instantly
+- **Dark mode**: click the sun/moon icon in the navbar (persisted, respects the system preference by default)
+- **Language**: the globe icon links to the same page in the other locale (`/` ⇄ `/es/`)
+- **Smooth scrolling**: nav links scroll to sections
 
 ### Building for Production
 
@@ -46,7 +46,7 @@
 npm run build
 ```
 
-Output will be in the `dist/` folder.
+Output goes to `dist/`.
 
 ### Preview Production Build
 
@@ -54,77 +54,69 @@ Output will be in the `dist/` folder.
 npm run preview
 ```
 
+### Quality Checks
+
+```bash
+npm run check   # astro check (TypeScript + Astro diagnostics)
+npm run lint    # ESLint
+```
+
 ## 📝 Customization Guide
 
-### Update Personal Information
+### Update Content
 
-1. **Contact Details**: Edit `src/components/Hero.tsx` and `src/components/Footer.tsx`
-2. **Projects**: Edit `src/data/projects.ts`
-3. **Skills**: Edit `src/data/skills.ts`
-4. **About Text**: Edit `src/contexts/LanguageContext.tsx` translations
+1. **Projects**: edit `src/data/projects.ts`
+2. **Skills**: edit `src/data/skills.ts`
+3. **All copy / translations**: edit `src/i18n/ui.ts` (add keys to both `en` and `es`)
+4. **Contact details & social links**: edit `src/components/Contact.astro` and `src/components/Footer.astro`
 
-### Change Colors
+### Change Colors / Typography
 
-Edit `src/theme.ts`:
+Edit the design tokens in `src/styles/tokens.css`:
 
-```typescript
-palette: {
-  primary: {
-    main: '#2C3E50',  // Change this
-  },
-  secondary: {
-    main: '#3498DB',  // Change this
-  },
+```css
+:root {
+  --primary: #00d1ff;   /* brand accent */
+  --bg: #ffffff;
+  --text: #0b0f1a;
 }
 ```
 
-### Add Social Links
-
-Edit `src/components/Footer.tsx` to add or modify social media links.
+Each section's component (`src/components/*.astro`) has a scoped `<style>` block for layout-specific rules.
 
 ## 🌐 Deployment
 
-### Netlify
+### Appwrite Sites (primary)
 
-1. Push your code to GitHub
-2. Connect your repository to Netlify
-3. Build settings are already configured in `netlify.toml`
-4. Add environment variables in Netlify dashboard if using EmailJS
+1. Push your code to the repository
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Add `PUBLIC_LEAD_ENDPOINT` in the environment variables
 
-### Vercel
+### Netlify / Vercel
 
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Build settings are already configured in `vercel.json`
-4. Add environment variables in Vercel dashboard if using EmailJS
-
-### GitHub Pages
-
-```bash
-npm run build
-# Deploy the dist/ folder to your gh-pages branch
-```
+- Netlify settings are in `netlify.toml` (build `npm run build`, publish `dist`)
+- Vercel auto-detects Astro
 
 ## 🔧 Troubleshooting
 
 ### Build fails
-- Ensure Node.js version is 18+
+- Ensure Node.js is 18+
 - Delete `node_modules` and `package-lock.json`, then run `npm install` again
+- Clear caches: delete `.astro/` and `node_modules/.vite`
 
 ### Contact form not working
-- Check EmailJS credentials in `.env`
-- Verify service and template are active in EmailJS dashboard
-- Check browser console for errors
+- Check `PUBLIC_LEAD_ENDPOINT` in `.env` (must start with `https://`)
+- Verify the `?site=` slug exists and is active in the n8n `sites` Data Table
+- Check the browser console (a warning is logged when the endpoint is missing)
 
 ### Styles not loading
-- Clear browser cache
-- Run `npm run build` again
-- Check that all CSS imports are correct
+- Clear the browser cache
+- Re-run `npm run build`
 
 ## 📚 Learn More
 
-- [React Documentation](https://react.dev/)
-- [Material UI Documentation](https://mui.com/)
-- [Vite Documentation](https://vitejs.dev/)
+- [Astro Documentation](https://docs.astro.build/)
+- [Astro i18n Routing](https://docs.astro.build/en/guides/internationalization/)
+- [Astro Fonts](https://docs.astro.build/en/guides/fonts/)
 - [TypeScript Documentation](https://www.typescriptlang.org/)
-- [EmailJS Documentation](https://www.emailjs.com/docs/)

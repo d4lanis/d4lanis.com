@@ -1,0 +1,158 @@
+---
+import Icon from './ui/Icon.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand-col">
+        <p class="footer__brand">Daniel Alanis</p>
+        <p class="footer__tagline">{t('footer.tagline')}</p>
+      </div>
+
+      <nav class="footer__legal" aria-label={t('footer.legal')}>
+        <a href="/privacy-policy">{t('footer.privacy')}</a>
+        <a href="/terms">{t('footer.terms')}</a>
+        <a href="/data-deletion">{t('footer.deletion')}</a>
+      </nav>
+
+      <div class="footer__socials">
+        <a class="footer__social" href="mailto:daniel.alanis.hdz@gmail.com" aria-label={t('aria.email')}>
+          <Icon name="mail" size={20} />
+        </a>
+        <a class="footer__social" href="tel:+528441461714" aria-label={t('aria.phone')}>
+          <Icon name="phone" size={20} />
+        </a>
+        <a
+          class="footer__social"
+          href="https://github.com/d4lanis"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('aria.github')}
+        >
+          <Icon name="github" size={20} />
+        </a>
+        <a
+          class="footer__social"
+          href="https://linkedin.com/in/daniel-alanis"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('aria.linkedin')}
+        >
+          <Icon name="linkedin" size={20} />
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__location">{t('footer.location')}</p>
+      <p class="footer__copyright">© {year} Daniel Alanis. {t('footer.copyright')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--divider);
+    padding-block: var(--space-8) var(--space-5);
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: var(--space-8);
+    align-items: start;
+    padding-bottom: var(--space-6);
+  }
+
+  .footer__brand {
+    margin-bottom: 8px;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .footer__tagline {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer__legal a {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .footer__legal a:hover {
+    color: var(--accent);
+  }
+
+  .footer__socials {
+    display: flex;
+    gap: 8px;
+  }
+
+  .footer__social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    transition: border-color 180ms ease, color 180ms ease;
+  }
+
+  .footer__social:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--divider);
+  }
+
+  .footer__location,
+  .footer__copyright {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 899px) {
+    .footer__top {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .footer__legal {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+    }
+  }
+</style>

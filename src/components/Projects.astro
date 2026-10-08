@@ -1,0 +1,71 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { useTranslations } from '../i18n/utils';
+import { projects } from '../data/projects';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const featured = projects.slice(0, 3);
+---
+
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="projects__head reveal">
+      <p class="kicker">02 · {t('nav.projects')}</p>
+      <h2 class="projects__title">{t('projects.title')}</h2>
+      <p class="projects__subtitle">{t('projects.subtitle')}</p>
+    </div>
+
+    <div class="projects__list">
+      {
+        featured.map((project, index) => (
+          <div
+            class:list={['projects__item', 'reveal', index === featured.length - 1 && 'projects__item--last']}
+            style={`transition-delay:${index * 0.08}s`}
+          >
+            <ProjectCard
+              project={project}
+              lang={lang}
+              viewLabel={t('projects.view')}
+              stackLabel={t('projects.stack')}
+              index={index}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects__head {
+    max-width: 640px;
+    margin-bottom: var(--space-8);
+  }
+
+  .projects__head .kicker {
+    margin-bottom: 20px;
+  }
+
+  .projects__title {
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .projects__subtitle {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .projects__item--last :global(.project) {
+    border-bottom: 1px solid var(--divider);
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { defaultLang, type Lang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: Lang;
+  canonical?: string;
+  keywords?: string;
+  variant?: 'site' | 'legal';
+  alternates?: { lang: Lang; path: string }[];
+}
+
+const {
+  title,
+  description,
+  lang = defaultLang,
+  canonical,
+  keywords = 'Daniel Alanis, Full-Stack Engineer, Web Developer, React, Next.js, AWS, SaaS Development, TypeScript, Node.js, Software Architecture',
+  variant = 'site',
+  alternates = [],
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://www.d4lanis.com');
+const canonicalURL = canonical ? new URL(canonical, site) : new URL(Astro.url.pathname, site);
+const ogLocale = lang === 'es' ? 'es_MX' : 'en_US';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Daniel Alanis" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Daniel Alanis" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:locale" content={ogLocale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    {
+      alternates.map((alt) => (
+        <link
+          rel="alternate"
+          hreflang={alt.lang}
+          href={new URL(alt.path, site).href}
+        />
+      ))
+    }
+
+    <slot name="head" />
+
+    <script is:inline>
+      (function () {
+        const doc = document.documentElement;
+        doc.classList.add('js');
+        try {
+          const stored = localStorage.getItem('theme-mode');
+          const theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          doc.setAttribute('data-theme', theme);
+        } catch {
+          doc.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+
+    <script>
+      // Reveal-on-scroll (progressive enhancement, respects reduced motion).
+      function initReveal() {
+        const items = document.querySelectorAll('.reveal');
+        if (!items.length) return;
+
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced || !('IntersectionObserver' in window)) {
+          items.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.2, rootMargin: '0px 0px -100px 0px' },
+        );
+
+        items.forEach((el) => observer.observe(el));
+      }
+
+      initReveal();
+      document.addEventListener('astro:after-swap', initReveal);
+    </script>
+  </head>
+  <body class={variant === 'legal' ? 'page-legal' : 'page-site'}>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <slot />
+  </body>
+</html>

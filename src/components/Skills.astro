@@ -1,0 +1,97 @@
+---
+import { useTranslations } from '../i18n/utils';
+import { skillCategories } from '../data/skills';
+import type { Lang, UIKey } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="section skills" id="skills">
+  <div class="container">
+    <div class="skills__head reveal">
+      <p class="kicker">03 · {t('nav.skills')}</p>
+      <h2 class="skills__title">{t('skills.title')}</h2>
+    </div>
+
+    <div class="skills__grid">
+      {
+        skillCategories.map((category, index) => (
+          <article class="skills__group reveal" style={`transition-delay:${index * 0.06}s`}>
+            <h3 class="skills__category">{t(`skills.${category.category}` as UIKey)}</h3>
+            <ul class="skills__list">
+              {category.skills.map((skill) => (
+                <li class="skills__skill">{skill}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills__head {
+    margin-bottom: var(--space-6);
+  }
+
+  .skills__head .kicker {
+    margin-bottom: 20px;
+  }
+
+  .skills__title {
+    font-weight: 500;
+  }
+
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 40px;
+  }
+
+  .skills__group {
+    padding-top: 20px;
+    border-top: 1px solid var(--divider);
+  }
+
+  .skills__category {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .skills__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .skills__skill {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    transition: color 180ms ease;
+  }
+
+  .skills__skill:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 899px) {
+    .skills__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 599px) {
+    .skills__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

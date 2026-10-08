@@ -1,0 +1,395 @@
+---
+import Icon from './ui/Icon.astro';
+import { useTranslations, getAlternateLang } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const languageHref = getRelativeLocaleUrl(getAlternateLang(lang), '/');
+
+const navItems = [
+  { label: t('nav.about'), id: 'about' },
+  { label: t('nav.projects'), id: 'projects' },
+  { label: t('nav.skills'), id: 'skills' },
+];
+---
+
+<header class="navbar" id="top">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="#top" aria-label={t('aria.brand')}>
+      <span class="navbar__brace">{'{'}</span> DA <span class="navbar__brace">{'}'}</span>
+    </a>
+
+    <nav class="navbar__links" aria-label={t('aria.mainNav')}>
+      {
+        navItems.map((item) => (
+          <a class="navbar__link" href={`#${item.id}`}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="navbar__actions">
+      <a class="btn btn--outline navbar__contact" href="#contact">{t('nav.contact')}</a>
+
+      <button
+        class="icon-btn"
+        type="button"
+        data-theme-toggle
+        aria-label={t('aria.toggleTheme')}
+      >
+        <span class="icon-btn__sun"><Icon name="sun" size={20} /></span>
+        <span class="icon-btn__moon"><Icon name="moon" size={20} /></span>
+      </button>
+
+      <a class="icon-btn" href={languageHref} aria-label={t('aria.toggleLanguage')}>
+        <Icon name="language" size={20} />
+      </a>
+
+      <button
+        class="icon-btn navbar__menu-btn"
+        type="button"
+        data-menu-toggle
+        aria-label={t('aria.openMenu')}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Icon name="menu" size={22} />
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-backdrop" data-menu-backdrop></div>
+
+  <aside class="menu-drawer" id="mobile-menu" data-menu-drawer aria-hidden="true">
+    <div class="menu-drawer__head">
+      <span class="menu-drawer__title">{t('nav.menu')}</span>
+      <button class="icon-btn" type="button" data-menu-close aria-label={t('aria.closeMenu')}>
+        <Icon name="close" size={22} />
+      </button>
+    </div>
+    <nav class="menu-drawer__nav" aria-label={t('aria.mainNav')}>
+      {
+        navItems.map((item) => (
+          <a class="menu-drawer__link" href={`#${item.id}`} data-menu-link>
+            {item.label}
+          </a>
+        ))
+      }
+      <a class="menu-drawer__link menu-drawer__link--accent" href="#contact" data-menu-link>
+        {t('nav.contact')}
+      </a>
+    </nav>
+  </aside>
+</header>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--divider);
+    isolation: isolate;
+  }
+
+  .navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 14px;
+  }
+
+  .navbar__brand {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .navbar__brace {
+    color: var(--accent);
+  }
+
+  .navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
+  }
+
+  .navbar__link {
+    position: relative;
+    padding-block: 6px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .navbar__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+
+  .navbar__link:hover {
+    color: var(--text);
+  }
+
+  .navbar__link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .navbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .icon-btn:hover {
+    background-color: var(--hover);
+    color: var(--accent);
+  }
+
+  .icon-btn__sun {
+    display: none;
+  }
+
+  :global([data-theme='dark']) .icon-btn__sun {
+    display: inline-flex;
+  }
+
+  :global([data-theme='dark']) .icon-btn__moon {
+    display: none;
+  }
+
+  .navbar__menu-btn {
+    display: none;
+  }
+
+  /* Mobile drawer ---------------------------------------------------------- */
+
+  .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background-color: rgba(17, 19, 16, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 220ms ease, visibility 220ms ease;
+  }
+
+  .menu-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .menu-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 201;
+    display: none;
+    flex-direction: column;
+    width: 280px;
+    max-width: 82vw;
+    height: 100dvh;
+    background-color: var(--bg);
+    border-left: 1px solid var(--divider);
+  }
+
+  .menu-drawer.is-open {
+    display: flex;
+    animation: drawer-in 260ms ease;
+  }
+
+  @keyframes drawer-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .menu-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .menu-drawer__title {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .menu-drawer__nav {
+    display: flex;
+    flex-direction: column;
+    padding-block: 8px;
+  }
+
+  .menu-drawer__link {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--divider);
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .menu-drawer__link:hover {
+    color: var(--accent);
+  }
+
+  .menu-drawer__link--accent {
+    color: var(--accent);
+  }
+
+  /* Responsive ------------------------------------------------------------- */
+
+  @media (max-width: 899px) {
+    .navbar__links {
+      display: none;
+    }
+
+    .navbar__menu-btn {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .navbar__contact {
+      display: none;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .menu-drawer,
+    .menu-backdrop {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Theme toggle + system preference sync.
+  function initTheme() {
+    const toggles = document.querySelectorAll('[data-theme-toggle]');
+
+    toggles.forEach((button) => {
+      button.addEventListener('click', () => {
+        const next =
+          document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try {
+          localStorage.setItem('theme-mode', next);
+        } catch {
+          /* ignore storage errors */
+        }
+      });
+    });
+
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    media.addEventListener('change', (event) => {
+      let stored = null;
+      try {
+        stored = localStorage.getItem('theme-mode');
+      } catch {
+        /* ignore */
+      }
+      if (!stored) {
+        document.documentElement.setAttribute('data-theme', event.matches ? 'dark' : 'light');
+      }
+    });
+  }
+
+  // Mobile menu drawer.
+  function initMenu() {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const drawer = document.querySelector('[data-menu-drawer]');
+    const backdrop = document.querySelector('[data-menu-backdrop]');
+    const closeButton = document.querySelector('[data-menu-close]');
+    if (!toggle || !drawer || !backdrop) return;
+
+    const open = () => {
+      drawer.classList.add('is-open');
+      backdrop.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const close = () => {
+      drawer.classList.remove('is-open');
+      backdrop.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    toggle.addEventListener('click', () => {
+      if (drawer.classList.contains('is-open')) close();
+      else open();
+    });
+    closeButton?.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    drawer.querySelectorAll('[data-menu-link]').forEach((link) => {
+      link.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close();
+    });
+  }
+
+  initTheme();
+  initMenu();
+  document.addEventListener('astro:after-swap', () => {
+    initTheme();
+    initMenu();
+  });
+</script>

@@ -4,15 +4,19 @@ This file provides guidance to AI Agents when working with this personal portfol
 
 ## Project Overview
 
-This is a modern, responsive personal portfolio landing page built with React, TypeScript, and Vite. The site showcases projects, skills, and provides contact information in a visually appealing, animated interface.
+This is a modern, responsive personal portfolio landing page built with **Astro**, TypeScript, and plain CSS. The site is fully static (prerendered), showcases projects and skills, and provides contact information in a visually appealing, animated interface.
 
-- **Framework**: React 18+ with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Material-UI (MUI) with custom theming
-- **Animations**: Framer Motion
-- **Deployment**: Appwrite Sites (Static Hosting)
-- **Form**: n8n webhook + Data Table (Contact form submissions, replaces Formspree)
-- **Language Support**: Bilingual (English/Spanish)
+- **Framework**: Astro (static site generation, `.astro` components)
+- **Language**: TypeScript
+- **Styling**: Hand-written CSS with design tokens (custom properties) + scoped `<style>` blocks
+- **Animations**: CSS transitions + a small IntersectionObserver reveal script (no animation runtime)
+- **Icons**: Inline SVG via `src/components/ui/Icon.astro` (zero runtime dependency)
+- **Fonts**: Self-hosted variable fonts (`@fontsource-variable/manrope`, `@fontsource-variable/inter`)
+- **Deployment**: Appwrite Sites (Static Hosting), output in `dist/`
+- **Form**: n8n webhook + Data Table (Contact form submissions)
+- **Language Support**: Bilingual (English/Spanish) with real routes — `/` (EN) and `/es/` (ES)
+- **JS shipped to the browser**: only theme toggle, mobile menu, scroll reveal, hero typewriter and the contact form
+
 
 ## Project Architecture & Structure
 
@@ -21,30 +25,42 @@ This is a modern, responsive personal portfolio landing page built with React, T
 ```
 d4lanis.com/
 ├── src/
-│   ├── components/      # React components for each section
-│   │   ├── About.tsx    # About me section
-│   │   ├── Contact.tsx  # Contact form and info
-│   │   ├── Footer.tsx   # Page footer with links
-│   │   ├── Hero.tsx     # Hero banner/landing section
-│   │   ├── Navbar.tsx   # Navigation bar
-│   │   ├── Projects.tsx # Projects showcase
-│   │   └── Skills.tsx   # Skills display
-│   ├── contexts/        # React context providers
-│   │   ├── LanguageContext.tsx # i18n language state
-│   │   └── ThemeContext.tsx    # Theme mode state (light/dark)
-│   ├── data/           # Static content data
-│   │   ├── projects.ts  # Project portfolio data
-│   │   └── skills.ts    # Skills list data
-│   ├── assets/         # Images, icons, static files
-│   ├── App.tsx         # Root application component
-│   ├── main.tsx        # Application entry point
-│   ├── index.css       # Global styles
-│   └── theme.ts        # MUI theme configuration
-├── public/             # Static public assets
-├── index.html          # HTML template
-├── package.json        # Dependencies and scripts
-├── tsconfig.json       # TypeScript configuration
-└── vite.config.ts      # Vite build configuration
+│   ├── components/            # Astro components, one per section
+│   │   ├── Navbar.astro       # Sticky nav, theme + language toggles, mobile drawer
+│   │   ├── Hero.astro         # Hero banner + typewriter
+│   │   ├── About.astro        # About me + "What I do" services
+│   │   ├── Projects.astro     # Featured projects grid
+│   │   ├── ProjectCard.astro  # Single project card
+│   │   ├── Skills.astro       # Skills grouped by category
+│   │   ├── Contact.astro      # Contact form + social links (vanilla fetch)
+│   │   ├── Footer.astro       # Page footer
+│   │   ├── HomePage.astro     # Composes all landing sections for a given lang
+│   │   └── ui/
+│   │       ├── Icon.astro     # Inline SVG icon component
+│   │       └── icons.ts       # IconName union type
+│   ├── layouts/
+│   │   ├── BaseLayout.astro   # <head>, SEO/OG/hreflang, theme init, reveal script
+│   │   └── LegalLayout.astro  # Header/footer + typography for legal pages
+│   ├── i18n/
+│   │   ├── ui.ts              # EN/ES translation dictionaries
+│   │   └── utils.ts           # useTranslations(), getLangFromUrl(), getAlternateLang()
+│   ├── data/                  # Static content data (framework-agnostic TS)
+│   │   ├── projects.ts        # Project portfolio data
+│   │   └── skills.ts          # Skills list data
+│   ├── styles/
+│   │   ├── tokens.css         # Design tokens (colors, type, spacing, radius)
+│   │   └── global.css         # Reset, base styles, shared primitives
+│   ├── pages/                 # File-based routes
+│   │   ├── index.astro        # /            (English home)
+│   │   ├── es/index.astro     # /es/         (Spanish home)
+│   │   ├── privacy-policy.astro
+│   │   ├── terms.astro
+│   │   └── data-deletion.astro
+│   └── env.d.ts               # Astro + PUBLIC_LEAD_ENDPOINT typings
+├── public/                    # Static public assets (favicon, etc.)
+├── astro.config.mjs           # Astro, i18n and sitemap configuration
+├── package.json               # Dependencies and scripts
+└── tsconfig.json              # Extends astro/tsconfigs/strict
 ```
 
 ## Landing Page Best Practices
@@ -82,72 +98,44 @@ d4lanis.com/
 
 ### Animation Standards
 
-#### Animation Library Strategy
+#### Animation Strategy
 
-This project uses **Framer Motion** for animations:
-- **Framer Motion**: Complex orchestrated animations, scroll-triggered effects, advanced gestures, micro-interactions, and entrance animations
+The project ships **no animation runtime**. Animations are CSS transitions triggered by class changes:
 
-Combine Framer Motion with Material UI components for optimal performance and developer experience.
+- **Reveal on scroll**: elements marked with `.reveal` start hidden (`opacity: 0`, translated) and get `.is-visible` added by a single `IntersectionObserver` in `src/layouts/BaseLayout.astro`.
+- **Progressive enhancement**: the `.reveal` styles only apply when `<html>` has the `js` class (set by an inline script), so content is visible without JavaScript.
+- **Stagger**: pass `style="transition-delay:0.1s"` (inline) on sibling `.reveal` elements. Inline styles are required because the global `.reveal` rule defines the `transition` shorthand.
+- **Hover interactions**: keep `transform`/`box-shadow` transitions on the **inner** element, never on the same node that carries `.reveal`, to avoid conflicting `transition`/`transform` declarations.
 
-#### Framer Motion Patterns
-
-```tsx
-// Fade in on scroll
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
-// Stagger children animations
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-// Hover interactions
-const hoverVariants = {
-  rest: { scale: 1 },
-  hover: { 
-    scale: 1.05,
-    transition: { duration: 0.3 }
-  }
-};
+```css
+/* global.css */
+html.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease-out, transform .6s ease-out; }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
 ```
 
 #### Animation Guidelines
-- **Performance**: Use `transform` and `opacity` for 60fps animations
-- **Duration**: 
+- **Performance**: animate only `transform` and `opacity`
+- **Duration**:
   - Micro-interactions: 100-300ms
   - Standard transitions: 300-500ms
-  - Complex animations: 500-800ms
-- **Easing**: 
-  - `easeOut` for entrances (feels responsive)
-  - `easeInOut` for smooth transitions
-  - `spring` for playful, natural movement
-- **Avoid**: Excessive motion that can cause motion sickness
-- **Respect**: `prefers-reduced-motion` for accessibility
+  - Entrances / reveals: 500-800ms
+- **Easing**: `ease-out` for entrances, `ease` / `ease-in-out` for transitions
+- **Avoid**: excessive motion that can cause motion sickness
+- **Respect**: `prefers-reduced-motion` — handled globally in `global.css` (reveals become visible immediately, transitions are neutralized)
 
 #### Scroll Animations
-```tsx
-// Use intersection observer for scroll-triggered animations
-const controls = useAnimation();
-const [ref, inView] = useInView({ threshold: 0.2 });
+```js
+// src/layouts/BaseLayout.astro
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' });
 
-useEffect(() => {
-  if (inView) {
-    controls.start("visible");
-  }
-}, [controls, inView]);
+document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 ```
 
 
@@ -162,22 +150,25 @@ useEffect(() => {
 - Use SVG for icons and logos
 
 #### Code Splitting
-```tsx
-// Lazy load components
-const Projects = lazy(() => import('./components/Projects'));
-const Contact = lazy(() => import('./components/Contact'));
 
-// Wrap in Suspense
-<Suspense fallback={<Loading />}>
-  <Projects />
-</Suspense>
+Astro only ships the JavaScript that is explicitly needed. The whole landing page is prerendered as static HTML; client JS is limited to a few small scripts embedded in components (Astro bundles each `<script>` once):
+
+```astro
+<!-- Solo el formulario necesita lógica de cliente -->
+<form data-contact-form>...</form>
+<script>
+  // fetch al endpoint de leads (vanilla, sin framework)
+</script>
 ```
 
+If an interactive island is ever needed, React/Vue/Svelte can be added with `@astrojs/react` and a `client:visible` directive.
+
 #### Bundle Optimization
-- Tree-shake unused code
-- Minimize third-party dependencies
-- Use Vite's build optimization
-- Target modern browsers (ES2020+)
+- Sin frameworks de UI ni runtime de animación
+- Iconos como SVG inline (no icon fonts, no librerías de iconos)
+- Fuentes variables auto-hospedadas y subseteadas por `@fontsource`
+- HTML/CSS minificado por el build de Astro
+- Target: navegadores modernos (ES2020+)
 
 ### Accessibility Standards
 
@@ -237,55 +228,57 @@ npm run preview
 ```
 
 ### Development Server
-- Runs on `http://localhost:5173`
+- Runs on `http://localhost:4321`
 - Hot module replacement (HMR) enabled
-- Fast refresh for React components
+- Astro dev toolbar available for inspection
 
 ### Build Process
-1. TypeScript compilation
-2. Vite bundling and optimization
-3. Asset processing and minification
-4. Static site generation
+1. Route collection from `src/pages/**`
+2. Server-side rendering of each `.astro` page to static HTML
+3. Client `<script>` bundling (only the code that is actually used)
+4. CSS bundling/minification (global + scoped styles)
+5. Static output in `dist/` (+ `sitemap-index.xml`)
 
 ## Code Style Guidelines
 
 ### Component Structure
 
-```tsx
+```astro
+---
 // ✅ Preferred component structure
-import { useState, useEffect } from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import { motion } from 'framer-motion';
+import Icon from './ui/Icon.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
-interface HeroProps {
-  title: string;
-  subtitle: string;
+interface Props {
+  lang: Lang;
 }
 
-export default function Hero({ title, subtitle }: HeroProps) {
-  // Hooks
-  const [isVisible, setIsVisible] = useState(false);
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
 
-  // Effects
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+<section class="section" id="about">
+  <div class="container">
+    <h2 class="about__title">{t('about.title')}</h2>
+    <a class="btn btn--primary" href="#contact"><Icon name="send" size={20} /></a>
+  </div>
+</section>
 
-  // Handlers
-  const handleClick = () => {
-    // Handle action
-  };
-
-  // Render
-  return (
-    <Box component={motion.section} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Typography variant="h1">{title}</Typography>
-      <Typography variant="subtitle1">{subtitle}</Typography>
-      <Button onClick={handleClick}>Get Started</Button>
-    </Box>
-  );
-}
+<style>
+  /* Scoped to this component automatically */
+  .about__title {
+    color: var(--primary);
+  }
+</style>
 ```
+
+Conventions:
+- One component per section in `src/components/`.
+- Language is passed down via a `lang` prop; build a translator with `useTranslations(lang)`.
+- Content/translations live in `src/i18n/ui.ts`, never hardcoded in markup (except proper nouns like "Daniel Alanis").
+- Use the shared primitives defined in `src/styles/global.css` (`.container`, `.section`, `.btn`, `.chip`, `.card`, `.reveal`).
+- Use `:global(...)` only when styling slotted content (see `LegalLayout.astro`).
 
 ### TypeScript Best Practices
 
@@ -315,74 +308,63 @@ const data: any = fetchData(); // Bad
 const data: Project[] = fetchData(); // Good
 ```
 
-### MUI Theming
+### Design Tokens
 
-```tsx
-// Custom theme structure
-import { createTheme } from '@mui/material/styles';
+All visual values live as CSS custom properties in `src/styles/tokens.css`. Light values are on `:root`, dark values are applied through `[data-theme="dark"]` (with a `prefers-color-scheme` fallback).
 
-const theme = createTheme({
-  palette: {
-    mode: 'light', // or 'dark'
-    primary: {
-      main: '#1976d2',
-      light: '#42a5f5',
-      dark: '#1565c0',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-    background: {
-      default: '#fafafa',
-      paper: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontSize: '3rem',
-      fontWeight: 700,
-    },
-    body1: {
-      fontSize: '1rem',
-      lineHeight: 1.6,
-    },
-  },
-  spacing: 8, // Base spacing unit
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
-    },
-  },
-});
+```css
+:root {
+  --primary: #00d1ff;
+  --primary-dark: #00a3c7;
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --text: #0b0f1a;
+  --text-muted: #64748b;
+  --divider: rgba(0, 0, 0, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --font-heading: 'Manrope Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', system-ui, sans-serif;
+  --fs-h1: 3.5rem;
+  --space-3: 24px;
+}
+
+[data-theme='dark'] {
+  --bg: #0b0f1a;
+  --surface: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --divider: rgba(255, 255, 255, 0.08);
+}
 ```
+
+Rules:
+- Never hardcode hex colors in components — use the tokens.
+- Theme is initialized before paint by an inline script in `BaseLayout.astro` (reads `localStorage['theme-mode']`, falls back to the system preference) to avoid a flash of the wrong theme.
+- The toggle lives in `Navbar.astro` and persists the choice to `localStorage`.
 
 ### Responsive Design Patterns
 
-```tsx
-// ✅ Use MUI breakpoints
-import { useTheme, useMediaQuery } from '@mui/material';
+Breakpoints follow the previous MUI values: `sm` 600px, `md` 900px, `lg` 1200px (used as `max-width` / `min-width` media queries).
 
-function ResponsiveComponent() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-  
-  return (
-    <Box 
-      sx={{
-        padding: { xs: 2, sm: 3, md: 4 }, // Responsive spacing
-        fontSize: { xs: '0.875rem', md: '1rem' }, // Responsive typography
-        display: { xs: 'block', md: 'flex' }, // Responsive layout
-      }}
-    >
-      {isMobile ? <MobileView /> : <DesktopView />}
-    </Box>
-  );
+```css
+/* ✅ Mobile-first, scoped component styles */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 599px) {
+  .about__points {
+    grid-template-columns: 1fr;
+  }
 }
 ```
 
@@ -411,34 +393,33 @@ function ResponsiveComponent() {
 
 ## Internationalization (i18n)
 
-### Language Context Pattern
+### Routing & Translations
 
-```tsx
-// Language context structure
-interface LanguageContextType {
-  language: 'en' | 'es';
-  setLanguage: (lang: 'en' | 'es') => void;
-  t: (key: string) => string; // Translation function
+The site uses Astro's built-in i18n with `prefixDefaultLocale: false`, so English lives at `/` and Spanish at `/es/` (see `astro.config.mjs`).
+
+- Routes: `src/pages/index.astro` (EN) and `src/pages/es/index.astro` (ES) both render `<HomePage lang={lang} />`.
+- Dictionaries: `src/i18n/ui.ts` holds the `en` / `es` key-value maps.
+- Helpers: `src/i18n/utils.ts` exposes `useTranslations(lang)`, `getLangFromUrl(url)` and `getAlternateLang(lang)`.
+- The language toggle in `Navbar.astro` is a real link (`getRelativeLocaleUrl`) to the equivalent page in the other locale.
+
+```ts
+// src/i18n/ui.ts
+export const ui = {
+  en: { 'hero.title': 'Full-Stack Software Engineer', /* ... */ },
+  es: { 'hero.title': 'Ingeniero de Software Full-Stack', /* ... */ },
+} as const;
+
+// src/i18n/utils.ts
+export function useTranslations(lang: Lang) {
+  return (key: UIKey) => ui[lang][key] ?? ui[defaultLang][key];
 }
 
-// Translation object structure
-const translations = {
-  en: {
-    hero: {
-      title: 'Welcome',
-      subtitle: 'Your subtitle here',
-      cta: 'Get in Touch',
-    },
-  },
-  es: {
-    hero: {
-      title: 'Bienvenido',
-      subtitle: 'Tu subtítulo aquí',
-      cta: 'Contáctame',
-    },
-  },
-};
+// In a component
+const t = useTranslations(Astro.props.lang);
+const label = t('nav.about');
 ```
+
+To add a key: add it to **both** `en` and `es` in `ui.ts`. `UIKey` is derived from the `en` dictionary, so a missing key is a type error at `npm run check`.
 
 ## SEO Best Practices
 
@@ -489,11 +470,12 @@ Note: n8n production webhooks on this instance do NOT resolve `:param` route seg
 
 #### Contact Form Setup
 
-```typescript
-async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-  e.preventDefault();
-  const data = new FormData(e.currentTarget);
-  await fetch(import.meta.env.VITE_LEAD_ENDPOINT, {
+```ts
+async function handleFormSubmit(event: SubmitEvent) {
+  event.preventDefault();
+  const form = event.currentTarget as HTMLFormElement;
+  const data = new FormData(form);
+  await fetch(import.meta.env.PUBLIC_LEAD_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -507,9 +489,13 @@ async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 }
 ```
 
+Actual implementation: `src/components/Contact.astro` (vanilla `<form>` + a bundled `<script>`).
+
+> Astro only exposes environment variables prefixed with `PUBLIC_` to the client, so the variable is named `PUBLIC_LEAD_ENDPOINT` (previously `VITE_LEAD_ENDPOINT`). The value is inlined at build time.
+
 #### Form Configuration
 
-Fields posted (defined in `src/components/Contact.tsx`):
+Fields posted (defined in `src/components/Contact.astro`):
 - `name` (text, required)
 - `email` (email, required)
 - `message` (textarea, required)
@@ -524,7 +510,7 @@ To add another form, reuse the same endpoint with a different `form_id` value.
 
 ```bash
 # .env
-VITE_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lanis
+PUBLIC_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lanis
 ```
 
 #### Security Considerations
@@ -536,26 +522,17 @@ VITE_LEAD_ENDPOINT=https://automations.d4lanis.com/webhook/form/lead?site=d4lani
 ## Testing Guidelines
 
 ### Component Testing
-```tsx
-// Example test structure
-import { render, screen } from '@testing-library/react';
-import Hero from './Hero';
 
-describe('Hero Component', () => {
-  it('renders title and subtitle', () => {
-    render(<Hero title="Test Title" subtitle="Test Subtitle" />);
-    expect(screen.getByText('Test Title')).toBeInTheDocument();
-    expect(screen.getByText('Test Subtitle')).toBeInTheDocument();
-  });
-  
-  it('calls onClick handler when button is clicked', () => {
-    const handleClick = jest.fn();
-    render(<Hero title="Test" onCtaClick={handleClick} />);
-    fireEvent.click(screen.getByRole('button'));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
-});
+There is no test runner configured in this project yet. The available quality gates are:
+
+```bash
+npm run check   # astro check: TypeScript + Astro diagnostics
+npm run lint    # ESLint (JS/TS/Astro)
+npm run build   # full static build
+npm run preview # serve dist/ for manual/visual QA
 ```
+
+If a test runner is added, prefer Astro's `Container API` for `.astro` components, or Playwright for end-to-end checks of the landing sections, theme toggle, language routes and contact form.
 
 ### Accessibility Testing
 - Use axe-core or similar tools
@@ -584,8 +561,9 @@ describe('Hero Component', () => {
 
 ### Build Errors
 - Clear `node_modules` and reinstall: `rm -rf node_modules && npm install`
-- Clear Vite cache: `rm -rf node_modules/.vite`
-- Check TypeScript errors: `npx tsc --noEmit`
+- Clear the Astro/Vite cache: `rm -rf node_modules/.astro node_modules/.vite` (or `.astro/` in the project root)
+- Type-check Astro + TS files: `npm run check`
+- Lint: `npm run lint`
 
 ### Animation Performance
 - Use `transform` and `opacity` instead of layout properties
@@ -594,8 +572,8 @@ describe('Hero Component', () => {
 
 ### Responsive Issues
 - Test on real devices, not just browser devtools
-- Use MUI's `sx` prop for responsive styling
-- Implement mobile-first approach
+- Use CSS media queries with the documented breakpoints (600px / 900px / 1200px)
+- Implement a mobile-first approach
 
 ## Resources
 

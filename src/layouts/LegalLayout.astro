@@ -1,0 +1,280 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  current: 'privacy-policy' | 'terms' | 'data-deletion';
+}
+
+const { title, description, path, current } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Home', key: 'home' },
+  { href: '/privacy-policy', label: 'Privacy Policy', key: 'privacy-policy' },
+  { href: '/terms', label: 'Terms of Service', key: 'terms' },
+  { href: '/data-deletion', label: 'Data Deletion', key: 'data-deletion' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<BaseLayout title={title} description={description} lang="en" canonical={path} variant="legal">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="d4lanis home">
+        <span class="brand__brace">{'{'}</span> DA <span class="brand__brace">{'}'}</span>
+      </a>
+      <nav class="header-nav" aria-label="Legal pages">
+        {
+          links.map((link) => (
+            <a href={link.href} aria-current={link.key === current ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="legal">
+    <div class="container container--md">
+      <article>
+        <slot />
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="brand-name">Daniel Alanis</p>
+    <p>Clean Code. Clear Results.</p>
+    <p>Saltillo, Coahuila, México</p>
+    <ul class="footer-links">
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/data-deletion">Data Deletion</a></li>
+      <li><a href="mailto:daniel.alanis.hdz@gmail.com">Email</a></li>
+    </ul>
+    <p class="copyright">© {year} Daniel Alanis. All rights reserved.</p>
+  </footer>
+</BaseLayout>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 12px;
+  }
+
+  .brand {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .brand__brace {
+    color: var(--accent);
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .header-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .header-nav a:hover,
+  .header-nav a[aria-current='page'] {
+    color: var(--accent);
+  }
+
+  .legal {
+    padding-block: 56px 72px;
+  }
+
+  /* Content typography lives in the page slot, so target it globally. */
+  .legal :global(h1) {
+    margin: 0 0 8px;
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .legal :global(.updated) {
+    margin: 0 0 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .legal :global(.lead) {
+    margin: 16px 0 32px;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    line-height: 1.7;
+  }
+
+  .legal :global(h2) {
+    margin: 40px 0 12px;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .legal :global(h3) {
+    margin: 24px 0 8px;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .legal :global(p),
+  .legal :global(li) {
+    color: var(--text);
+  }
+
+  .legal :global(ul) {
+    margin: 8px 0 16px;
+    padding-left: 22px;
+  }
+
+  .legal :global(li) {
+    margin-bottom: 6px;
+  }
+
+  .legal :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .legal :global(a:hover) {
+    color: var(--accent-strong);
+  }
+
+  .legal :global(.note) {
+    margin: 16px 0;
+    padding: 16px 20px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .legal :global(.contact-box) {
+    margin: 16px 0 8px;
+    padding: 20px 24px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .legal :global(.legal-links) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 8px 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .legal :global(.legal-links a) {
+    font-weight: 600;
+  }
+
+  .legal :global(.back-link) {
+    display: inline-block;
+    margin-top: 40px;
+    font-weight: 600;
+  }
+
+  .site-footer {
+    padding: 40px 24px;
+    border-top: 1px solid var(--divider);
+    background-color: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
+
+  .site-footer .brand-name {
+    margin: 0 0 6px;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .site-footer p {
+    margin: 4px 0;
+    color: inherit;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  .site-footer .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 20px;
+    margin: 16px 0 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer .footer-links a {
+    color: inherit;
+    font-weight: 500;
+    text-decoration: none;
+    opacity: 0.9;
+  }
+
+  .site-footer .footer-links a:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .site-footer .copyright {
+    margin-top: 12px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 600px) {
+    .legal {
+      padding-block: 40px 56px;
+    }
+
+    .legal :global(h1) {
+      font-size: 2rem;
+    }
+
+    .header-nav {
+      gap: 14px;
+      font-size: 0.9rem;
+    }
+  }
+</style>
