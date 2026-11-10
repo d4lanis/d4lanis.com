@@ -320,12 +320,19 @@ const navItems = [
   // Theme toggle + system preference sync.
   function initTheme() {
     const toggles = document.querySelectorAll('[data-theme-toggle]');
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    const applyTheme = (theme) => {
+      document.documentElement.setAttribute('data-theme', theme);
+      if (themeMeta) {
+        themeMeta.setAttribute('content', theme === 'dark' ? '#111310' : '#FBFAF7');
+      }
+    };
 
     toggles.forEach((button) => {
       button.addEventListener('click', () => {
         const next =
           document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
+        applyTheme(next);
         try {
           localStorage.setItem('theme-mode', next);
         } catch {
@@ -343,7 +350,7 @@ const navItems = [
         /* ignore */
       }
       if (!stored) {
-        document.documentElement.setAttribute('data-theme', event.matches ? 'dark' : 'light');
+        applyTheme(event.matches ? 'dark' : 'light');
       }
     });
   }

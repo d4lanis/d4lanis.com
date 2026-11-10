@@ -12,7 +12,7 @@ export const ui = {
     // Metadata
     'meta.title': 'Daniel Alanis | Full-Stack Software Engineer',
     'meta.description':
-      'Daniel Alanis is a Full-Stack Software Engineer building reliable, scalable web solutions for startups and enterprises. Turning complex systems into clean, human experiences.',
+      'Daniel Alanis is a Full-Stack Software Engineer with 4+ years building reliable APIs, integrations and data-driven systems for international clients across healthcare, fintech, SaaS and event management.',
 
     // Accessibility labels
     'aria.mainNav': 'Main navigation',
@@ -36,39 +36,46 @@ export const ui = {
 
     // Hero
     'hero.title': 'Full-Stack Software Engineer',
-    'hero.subtitle': 'Building reliable, scalable web solutions for startups and enterprises.',
+    'hero.subtitle':
+      '4+ years building reliable APIs, integrations and data-driven systems for international clients.',
     'hero.description':
-      'From idea to deployment. I turn complex systems into simple, human experiences with clean, maintainable architecture.',
+      'Backend-oriented full-stack engineer working with Node.js, TypeScript and NestJS across healthcare, fintech, SaaS and event management.',
     'hero.cta': "Let's Work Together",
 
     // About
     'about.title': 'About Me',
     'about.intro':
-      'I started coding to turn complex systems into simple, human experiences. Today, I help businesses scale with clean, maintainable architecture.',
-    'about.point1': 'Friendly expert tone',
-    'about.point2': 'Reliable execution',
-    'about.point3': 'Clear communication',
-    'about.point4': 'Scalable solutions',
+      'I am a full-stack engineer with 4+ years building and maintaining software for international clients. I focus on backend systems, clean integrations and maintainable architecture.',
+    'about.point1': 'Backend & APIs',
+    'about.point2': 'Reliable integrations',
+    'about.point3': 'Production support',
+    'about.point4': 'Clear communication',
     'about.experience':
-      'I bridge the gap between technical complexity and business goals, delivering results across healthcare, fintech, e-commerce, AI, and SaaS.',
+      'I bridge the gap between technical complexity and business goals, delivering results across healthcare, fintech, SaaS and event management.',
 
     // What I Do
     'whatido.title': 'What I Do',
     'whatido.build.title': 'Build',
     'whatido.build.desc':
-      'I develop reliable full-stack applications, from robust backends to intuitive, responsive frontends.',
+      'I build full-stack applications with a backend focus: APIs, integrations, authentication and data workflows.',
     'whatido.fix.title': 'Fix',
     'whatido.fix.desc':
-      'I resolve critical bugs and performance bottlenecks to ensure your system runs smoothly under pressure.',
+      'I troubleshoot production issues, database bottlenecks and integrations, backed by monitoring and end-to-end testing.',
     'whatido.optimize.title': 'Optimize',
     'whatido.optimize.desc':
-      'I refactor legacy code and implement modern practices to reduce technical debt and improve maintainability.',
+      'I refactor legacy code, add observability and improve deployment workflows with CI/CD.',
 
     // Projects
     'projects.title': 'Key Projects',
-    'projects.subtitle': 'Here are a few projects that demonstrate how I solve real-world problems.',
+    'projects.subtitle': 'Client platforms I have helped build and maintain.',
     'projects.view': 'View Project',
     'projects.stack': 'Stack',
+
+    // Personal Projects
+    'personalProjects.kicker': 'Personal',
+    'personalProjects.title': 'Personal Projects',
+    'personalProjects.subtitle':
+      'Independent builds and client websites I have developed end to end.',
 
     // Skills
     'skills.title': 'Skills',
@@ -76,7 +83,7 @@ export const ui = {
     'skills.backend': 'Backend',
     'skills.databases': 'Databases',
     'skills.cloud': 'Cloud & DevOps',
-    'skills.monitoring': 'Monitoring',
+    'skills.monitoring': 'Testing',
     'skills.ai': 'AI / Automation',
 
     // Contact
@@ -105,7 +112,7 @@ export const ui = {
     // Metadata
     'meta.title': 'Daniel Alanis | Ingeniero de Software Full-Stack',
     'meta.description':
-      'Daniel Alanis es un Ingeniero de Software Full-Stack que construye soluciones web confiables y escalables para startups y empresas. Transforma sistemas complejos en experiencias humanas simples.',
+      'Daniel Alanis es un Ingeniero de Software Full-Stack con más de 4 años construyendo APIs, integraciones y sistemas de datos confiables para clientes internacionales en salud, fintech, SaaS y gestión de eventos.',
 
     // Accessibility labels
     'aria.mainNav': 'Navegación principal',
@@ -129,40 +136,47 @@ export const ui = {
 
     // Hero
     'hero.title': 'Ingeniero de Software Full-Stack',
-    'hero.subtitle': 'Construyendo soluciones web confiables y escalables para startups y empresas.',
+    'hero.subtitle':
+      'Más de 4 años construyendo APIs, integraciones y sistemas de datos confiables para clientes internacionales.',
     'hero.description':
-      'Desde la idea hasta el despliegue. Transformo sistemas complejos en experiencias humanas simples con arquitectura limpia y mantenible.',
+      'Ingeniero full-stack con enfoque backend, trabajando con Node.js, TypeScript y NestJS en salud, fintech, SaaS y gestión de eventos.',
     'hero.cta': 'Trabajemos Juntos',
 
     // About
     'about.title': 'Sobre Mí',
     'about.intro':
-      'Empecé a programar para convertir sistemas complejos en experiencias simples. Hoy, ayudo a empresas a escalar con arquitectura limpia y mantenible.',
-    'about.point1': 'Experto amigable',
-    'about.point2': 'Ejecución confiable',
-    'about.point3': 'Comunicación clara',
-    'about.point4': 'Soluciones escalables',
+      'Soy un ingeniero full-stack con más de 4 años desarrollando y manteniendo software para clientes internacionales. Me enfoco en sistemas backend, integraciones limpias y arquitectura mantenible.',
+    'about.point1': 'Backend y APIs',
+    'about.point2': 'Integraciones confiables',
+    'about.point3': 'Soporte a producción',
+    'about.point4': 'Comunicación clara',
     'about.experience':
-      'Conecto la complejidad técnica con los objetivos de negocio, entregando resultados en salud, fintech, e-commerce, IA y SaaS.',
+      'Conecto la complejidad técnica con los objetivos de negocio, entregando resultados en salud, fintech, SaaS y gestión de eventos.',
 
     // What I Do
     'whatido.title': 'Lo Que Hago',
     'whatido.build.title': 'Construyo',
     'whatido.build.desc':
-      'Desarrollo aplicaciones full-stack confiables, desde backends robustos hasta frontends intuitivos.',
+      'Desarrollo aplicaciones full-stack con enfoque backend: APIs, integraciones, autenticación y flujos de datos.',
     'whatido.fix.title': 'Soluciono',
     'whatido.fix.desc':
-      'Resuelvo errores críticos y cuellos de botella para asegurar que tu sistema funcione bajo presión.',
+      'Resuelvo problemas en producción, cuellos de botella de bases de datos e integraciones, apoyado en monitoreo y pruebas end-to-end.',
     'whatido.optimize.title': 'Optimizo',
     'whatido.optimize.desc':
-      'Refactorizo código legado e implemento prácticas modernas para reducir deuda técnica.',
+      'Refactorizo código legado, agrego observabilidad y mejoro los flujos de despliegue con CI/CD.',
 
     // Projects
     'projects.title': 'Proyectos Destacados',
     'projects.subtitle':
-      'Aquí hay algunos proyectos que demuestran cómo resuelvo problemas del mundo real.',
+      'Plataformas de clientes que he ayudado a construir y mantener.',
     'projects.view': 'Ver Proyecto',
     'projects.stack': 'Tecnologías',
+
+    // Personal Projects
+    'personalProjects.kicker': 'Personal',
+    'personalProjects.title': 'Proyectos Personales',
+    'personalProjects.subtitle':
+      'Proyectos independientes y sitios de clientes que he desarrollado de principio a fin.',
 
     // Skills
     'skills.title': 'Habilidades',
@@ -170,7 +184,7 @@ export const ui = {
     'skills.backend': 'Backend',
     'skills.databases': 'Bases de Datos',
     'skills.cloud': 'Nube y DevOps',
-    'skills.monitoring': 'Monitoreo',
+    'skills.monitoring': 'Pruebas',
     'skills.ai': 'IA / Automatización',
 
     // Contact

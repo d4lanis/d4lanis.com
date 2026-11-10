@@ -20,7 +20,7 @@ const {
   description,
   lang = defaultLang,
   canonical,
-  keywords = 'Daniel Alanis, Full-Stack Engineer, Web Developer, React, Next.js, AWS, SaaS Development, TypeScript, Node.js, Software Architecture',
+  keywords = 'Daniel Alanis, Full-Stack Software Engineer, Backend Engineer, Node.js, TypeScript, NestJS, PHP, PostgreSQL, AWS, Playwright, OpenCode, n8n, Healthcare, Fintech, SaaS',
   variant = 'site',
   alternates = [],
 } = Astro.props;
@@ -40,7 +40,10 @@ const ogLocale = lang === 'es' ? 'es_MX' : 'en_US';
     <meta name="keywords" content={keywords} />
     <meta name="author" content="Daniel Alanis" />
     <meta name="robots" content="index, follow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#FBFAF7" />
     <link rel="canonical" href={canonicalURL.href} />
 
     <meta property="og:type" content="website" />
@@ -69,6 +72,13 @@ const ogLocale = lang === 'es' ? 'es_MX' : 'en_US';
     <script is:inline>
       (function () {
         const doc = document.documentElement;
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        const setTheme = (theme) => {
+          doc.setAttribute('data-theme', theme);
+          if (themeMeta) {
+            themeMeta.setAttribute('content', theme === 'dark' ? '#111310' : '#FBFAF7');
+          }
+        };
         doc.classList.add('js');
         try {
           const stored = localStorage.getItem('theme-mode');
@@ -78,9 +88,9 @@ const ogLocale = lang === 'es' ? 'es_MX' : 'en_US';
               : window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light';
-          doc.setAttribute('data-theme', theme);
+          setTheme(theme);
         } catch {
-          doc.setAttribute('data-theme', 'light');
+          setTheme('light');
         }
       })();
     </script>

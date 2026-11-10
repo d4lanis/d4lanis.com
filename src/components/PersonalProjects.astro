@@ -1,0 +1,74 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { useTranslations } from '../i18n/utils';
+import { personalProjects } from '../data/projects';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const items = personalProjects;
+---
+
+<section class="section personal-projects" id="personal-projects">
+  <div class="container">
+    <div class="personal-projects__head reveal">
+      <p class="kicker">03 · {t('personalProjects.kicker')}</p>
+      <h2 class="personal-projects__title">{t('personalProjects.title')}</h2>
+      <p class="personal-projects__subtitle">{t('personalProjects.subtitle')}</p>
+    </div>
+
+    <div class="personal-projects__list">
+      {
+        items.map((project, index) => (
+          <div
+            class:list={[
+              'personal-projects__item',
+              'reveal',
+              index === items.length - 1 && 'personal-projects__item--last',
+            ]}
+            style={`transition-delay:${index * 0.08}s`}
+          >
+            <ProjectCard
+              project={project}
+              lang={lang}
+              viewLabel={t('projects.view')}
+              stackLabel={t('projects.stack')}
+              index={index}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .personal-projects__head {
+    max-width: 640px;
+    margin-bottom: var(--space-8);
+  }
+
+  .personal-projects__head .kicker {
+    margin-bottom: 20px;
+  }
+
+  .personal-projects__title {
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .personal-projects__subtitle {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .personal-projects__item--last :global(.project) {
+    border-bottom: 1px solid var(--divider);
+  }
+</style>

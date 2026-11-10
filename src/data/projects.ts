@@ -9,26 +9,180 @@ export interface Project {
     es: string[];
   };
   link?: string;
+  category?: 'key' | 'personal';
 }
 
 export const projects: Project[] = [
   {
-    titleEn: 'CHN — Healthcare System',
-    titleEs: 'CHN — Sistema de Salud',
-    descriptionEn: 'Enhanced reliability of a critical healthcare platform',
-    descriptionEs: 'Mejora de la fiabilidad de una plataforma de salud crítica',
-    tech: ['PHP', 'openEMR', 'jQuery', 'MySQL'],
+    titleEn: 'ICE3 — Community Health Network',
+    titleEs: 'ICE3 — Community Health Network',
+    descriptionEn: 'Custom OpenEMR modules and reporting for behavioral health workflows',
+    descriptionEs: 'Módulos personalizados de OpenEMR y reportes para flujos de salud conductual',
+    tech: ['PHP', 'OpenEMR', 'MariaDB', 'jQuery', 'Bootstrap', 'Playwright'],
     link: 'https://mychn.org/',
+    category: 'key',
     highlights: {
       en: [
-        'Fixed critical bugs at code and database level',
-        'Automated billing workflows',
-        'Improved reliability of encounter forms',
+        'Developed custom OpenEMR modules and clinical forms for behavioral health and substance use treatment',
+        'Designed an idempotent SQL migration framework for consistent deployments across environments',
+        'Built reporting dashboards, payment agreements and referral tracking with KPI summaries',
       ],
       es: [
-        'Corrección de bugs críticos a nivel de código y base de datos',
-        'Automatización de procesos de facturación',
-        'Mayor estabilidad en formularios de encuentro',
+        'Módulos personalizados de OpenEMR y formularios clínicos para salud conductual y tratamiento de adicciones',
+        'Framework de migraciones SQL idempotente para despliegues consistentes entre entornos',
+        'Dashboards de reportes, acuerdos de pago y seguimiento de referencias con KPIs',
+      ],
+    },
+  },
+  {
+    titleEn: 'Ticket To Go — Event Management Platform',
+    titleEs: 'Ticket To Go — Plataforma de Gestión de Eventos',
+    descriptionEn: 'Administrative tooling for events, venues, seating and ticket configuration',
+    descriptionEs:
+      'Herramientas administrativas para eventos, recintos, asientos y configuración de boletos',
+    tech: ['React', 'Node.js', 'PostgreSQL', 'Material UI', 'GCP', 'Sentry'],
+    link: 'https://www.tickettogo.com.mx/',
+    category: 'key',
+    highlights: {
+      en: [
+        'Developed admin features for event, venue, seating and ticket configuration workflows',
+        'Created reusable UI components to reduce hardcoded implementations',
+        'Integrated Sentry across frontend and backend to improve error visibility',
+      ],
+      es: [
+        'Funciones administrativas para configuración de eventos, recintos, asientos y boletos',
+        'Componentes de UI reutilizables para reducir implementaciones hardcodeadas',
+        'Integración de Sentry en frontend y backend para mejorar la visibilidad de errores',
+      ],
+    },
+  },
+  {
+    titleEn: 'COGSZ — Cost of Goods Sold Platform',
+    titleEs: 'COGSZ — Plataforma de Costos',
+    descriptionEn: 'Cost management platform for enterprise clients',
+    descriptionEs: 'Plataforma de gestión de costos para clientes empresariales',
+    tech: ['TypeScript', 'Next.js', 'NestJS', 'AWS'],
+    link: 'https://cogsz.com/',
+    category: 'key',
+    highlights: {
+      en: [
+        'Developed secure authentication and authorization for enterprise users',
+        'Integrated APIs and transformed business data for customer management and cost allocation',
+        'Implemented form validation and input-handling logic for critical workflows',
+      ],
+      es: [
+        'Autenticación y autorización seguras para usuarios empresariales',
+        'Integración de APIs y transformación de datos para gestión de clientes y asignación de costos',
+        'Validación de formularios y manejo de inputs en flujos críticos',
+      ],
+    },
+  },
+  {
+    titleEn: 'Niu Pay — Fintech for Government',
+    titleEs: 'Niu Pay — Fintech para Gobierno',
+    descriptionEn: 'Secure payment platform for government services',
+    descriptionEs: 'Plataforma de pagos segura para servicios gubernamentales',
+    tech: ['PHP', 'Laravel', 'MySQL', 'AWS', 'Datadog', 'New Relic'],
+    link: 'https://niupay.com.pg/',
+    category: 'key',
+    highlights: {
+      en: [
+        'Implemented application monitoring and observability with Datadog and New Relic',
+        'Collaborated with DevOps on production deployments and issue resolution',
+        'Established Git workflow standards and dependency security practices',
+      ],
+      es: [
+        'Monitoreo y observabilidad de la aplicación con Datadog y New Relic',
+        'Colaboración con DevOps en despliegues y resolución de incidentes',
+        'Estándares de Git y gestión de dependencias con enfoque de seguridad',
+      ],
+    },
+  },
+  {
+    titleEn: 'Stellar Menus — Restaurant SaaS',
+    titleEs: 'Stellar Menus — SaaS para Restaurantes',
+    descriptionEn: 'Restaurant SaaS platform with multi-app authentication',
+    descriptionEs: 'Plataforma SaaS para restaurantes con autenticación multi-aplicación',
+    tech: ['React', 'Node.js', 'MongoDB', 'AWS Cognito', 'AWS Lambda'],
+    link: 'https://stellarmenus.com/',
+    category: 'key',
+    highlights: {
+      en: [
+        'Implemented AWS Cognito authentication across multiple frontends with independent Node.js backends',
+        'Built session management and token refresh flows for secure cross-application access',
+        'Developed Lambda automations triggered by Cognito events and fixed database connection bottlenecks',
+      ],
+      es: [
+        'Autenticación con AWS Cognito en múltiples frontends con backends Node.js independientes',
+        'Gestión de sesiones y refresh de tokens para acceso seguro entre aplicaciones',
+        'Automatizaciones Lambda disparadas por eventos de Cognito y solución de cuellos de botella de conexión',
+      ],
+    },
+  },
+  {
+    titleEn: 'OrderBot "Bella" — AI Restaurant Ordering Agent',
+    titleEs: 'OrderBot "Bella" — Agente de Pedidos con IA',
+    descriptionEn:
+      'Production AI ordering agent that handles menus, multi-turn conversations and order registration',
+    descriptionEs:
+      'Agente de pedidos con IA en producción que gestiona menús, conversaciones multi-turno y registro de pedidos',
+    tech: ['n8n', 'DeepSeek', 'PostgreSQL', 'OpenAI-Compatible API'],
+    category: 'personal',
+    highlights: {
+      en: [
+        'Built the agent on self-hosted n8n with session-scoped conversation memory',
+        'Kept pricing, fees and order commits in PostgreSQL stored functions inside a single ACID transaction',
+        'Configured five agent tools and authored 40+ QA cases covering prompt injection and PII leakage',
+      ],
+      es: [
+        'Agente construido sobre n8n autoalojado con memoria de conversación por sesión',
+        'Precios, cargos y confirmación de pedidos en funciones almacenadas de PostgreSQL dentro de una transacción ACID',
+        'Cinco herramientas del agente y más de 40 casos de QA que cubren prompt injection y fuga de PII',
+      ],
+    },
+  },
+  {
+    titleEn: 'vConsultores — Corporate Law Firm Website',
+    titleEs: 'vConsultores — Sitio Web de Despacho Jurídico',
+    descriptionEn:
+      'Multi-page website built at Wenova for a Saltillo law, fiscal and corporate firm',
+    descriptionEs:
+      'Sitio multipágina desarrollado en Wenova para un despacho jurídico, fiscal y corporativo de Saltillo',
+    tech: ['Astro', 'TypeScript', 'Tailwind CSS', 'JSON-LD', 'Nginx'],
+    link: 'https://www.vconsultores.mx/',
+    category: 'personal',
+    highlights: {
+      en: [
+        'Built a multi-page architecture for practice areas, team profiles and contact',
+        'Implemented SEO metadata, LegalService structured data and legal pages',
+        'Created responsive navigation and progressive reveal animations',
+      ],
+      es: [
+        'Arquitectura multipágina para áreas de práctica, perfiles del equipo y contacto',
+        'Metadatos SEO, datos estructurados LegalService y páginas legales',
+        'Navegación responsiva y animaciones de revelado con mejora progresiva',
+      ],
+    },
+  },
+  {
+    titleEn: 'Olson WRM — Industrial Roofing Website',
+    titleEs: 'Olson WRM — Sitio Web de Impermeabilización Industrial',
+    descriptionEn: 'Marketing site built at Wenova for an industrial roof restoration company',
+    descriptionEs:
+      'Sitio comercial desarrollado en Wenova para una empresa de restauración de techos industriales',
+    tech: ['Astro', 'TypeScript', 'Tailwind CSS', 'Lucide', 'GTM', 'S3 + CloudFront'],
+    link: 'https://www.olsonwrm.com/',
+    category: 'personal',
+    highlights: {
+      en: [
+        'Built the service catalog, FAQ and lead-capture flows',
+        'Implemented SEO metadata and RoofingContractor structured data',
+        'Integrated Google Tag Manager and deployed static assets to S3 + CloudFront',
+      ],
+      es: [
+        'Catálogo de servicios, FAQ y flujos de captación de leads',
+        'Metadatos SEO y datos estructurados RoofingContractor',
+        'Integración de Google Tag Manager y despliegue de assets estáticos en S3 + CloudFront',
       ],
     },
   },
@@ -53,26 +207,6 @@ export const projects: Project[] = [
     },
   },
   {
-    titleEn: 'Ticket to Go — Event Ticketing',
-    titleEs: 'Ticket to Go — Venta de Boletos',
-    descriptionEn: 'Modernized event ticketing platform with custom UI builder',
-    descriptionEs: 'Modernización de plataforma de venta de boletos con constructor de UI personalizado',
-    tech: ['Vite.js', 'Node.js', 'GCP', 'Sentry'],
-    link: 'https://www.tickettogo.com.mx/',
-    highlights: {
-      en: [
-        'Rebuilt the admin module using global components',
-        'Integrated Sentry monitoring',
-        'Built a complete section and seat builder UI from scratch',
-      ],
-      es: [
-        'Reescritura del módulo administrativo con componentes globales',
-        'Integración de monitoreo con Sentry',
-        'Construcción completa de UI para secciones y asientos',
-      ],
-    },
-  },
-  {
     titleEn: 'Honest Medical — E-commerce',
     titleEs: 'Honest Medical — Comercio Electrónico',
     descriptionEn: 'Improved legacy e-commerce platform for medical supplies',
@@ -89,66 +223,6 @@ export const projects: Project[] = [
         'Mejora de UX y actualización de componentes legacy',
         'Automatización de flujos manuales de SQL',
         'Soporte de producción en pedidos, envíos y pagos',
-      ],
-    },
-  },
-  {
-    titleEn: 'COGSZ — Cost of Goods Sold Platform',
-    titleEs: 'COGSZ — Plataforma de Costos',
-    descriptionEn: 'Built cost management platform for enterprise clients',
-    descriptionEs: 'Desarrollo de plataforma de gestión de costos para clientes empresariales',
-    tech: ['Next.js', 'Nest.js', 'AWS', 'AG-Grid'],
-    link: 'https://cogsz.com/',
-    highlights: {
-      en: [
-        'Built authentication, form validation, and AG-Grid integrations',
-        'Designed intuitive cost management flows',
-        'Implemented real-time data visualization',
-      ],
-      es: [
-        'Construcción de autenticación, validación y AG-Grid',
-        'Diseño de flujos intuitivos de gestión de costos',
-        'Implementación de visualización de datos en tiempo real',
-      ],
-    },
-  },
-  {
-    titleEn: 'Niu Pay — Fintech for Government',
-    titleEs: 'Niu Pay — Fintech para Gobierno',
-    descriptionEn: 'Secure payment platform for government services',
-    descriptionEs: 'Plataforma de pagos segura para servicios gubernamentales',
-    tech: ['Laravel', 'MySQL', 'Datadog', 'AWS'],
-    link: 'https://niupay.com.pg/',
-    highlights: {
-      en: [
-        'Integrated monitoring + logging',
-        'Ensured secure, stable deployments',
-        'Created Git standards across team',
-      ],
-      es: [
-        'Integración de monitoreo y logs',
-        'Despliegues seguros y estables',
-        'Creación de estándares Git para el equipo',
-      ],
-    },
-  },
-  {
-    titleEn: 'Stellar Menus — Restaurant SaaS',
-    titleEs: 'Stellar Menus — SaaS para Restaurantes',
-    descriptionEn: 'Digital menu management platform for restaurants',
-    descriptionEs: 'Plataforma de gestión de menús digitales para restaurantes',
-    tech: ['React', 'Node.js', 'AWS Cognito', 'Lambda'],
-    link: 'https://stellarmenus.com/',
-    highlights: {
-      en: [
-        'Built role-based auth with secure SSO',
-        'Improved microservice performance',
-        'Automated emails via AWS Lambda triggers',
-      ],
-      es: [
-        'Autenticación basada en roles con SSO seguro',
-        'Mejora del rendimiento de microservicios',
-        'Automatización de correos con triggers de Lambda',
       ],
     },
   },
@@ -172,22 +246,26 @@ export const projects: Project[] = [
     },
   },
   {
-    titleEn: 'Document-IT',
-    titleEs: 'Document-IT',
-    descriptionEn: 'Chat with your documents using AI embeddings',
-    descriptionEs: 'Chatea con tus documentos usando embeddings de IA',
-    tech: ['React', 'Node.js', 'MongoDB', 'OpenAI Embeddings', 'ChromaDB'],
+    titleEn: 'Document IT — AI Documentation Platform',
+    titleEs: 'Document IT — Plataforma de Documentación con IA',
+    descriptionEn: 'AI documentation platform with vector embeddings and semantic search',
+    descriptionEs:
+      'Plataforma de documentación con IA, embeddings vectoriales y búsqueda semántica',
+    tech: ['React', 'Node.js', 'MongoDB', 'ChromaDB', 'OpenAI'],
     highlights: {
       en: [
-        'Built a PDF upload + vector search system',
-        'Users can "chat" with their documents via embeddings',
-        'Implemented semantic search capabilities',
+        'Implemented document ingestion and retrieval workflows with ChromaDB and OpenAI',
+        'Built authentication, role-based access control and project management',
+        'Presented the project in an internal innovation hackathon',
       ],
       es: [
-        'Sistema de carga de PDF + búsqueda vectorial',
-        'Los usuarios pueden "chatear" con sus documentos',
-        'Capacidades de búsqueda semántica implementadas',
+        'Flujos de ingesta y recuperación de documentos con ChromaDB y OpenAI',
+        'Autenticación, control de acceso por roles y gestión de proyectos',
+        'Proyecto presentado en un hackathon interno de innovación',
       ],
     },
   },
 ];
+
+export const keyProjects = projects.filter((project) => project.category === 'key');
+export const personalProjects = projects.filter((project) => project.category === 'personal');
